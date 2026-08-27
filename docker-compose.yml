@@ -5,6 +5,9 @@ services:
     container_name: github-actions-backend
     ports:
       - "3000:3000"
+    environment:
+      PORT: 3000
+      CORS_ORIGINS: http://localhost
     restart: unless-stopped
 
   frontend:
@@ -12,4 +15,8 @@ services:
     container_name: github-actions-frontend
     ports:
       - "80:80"
+    build:
+      context: ./my-app
+      args:
+        VITE_API_URL: http://localhost:3000
     restart: unless-stopped

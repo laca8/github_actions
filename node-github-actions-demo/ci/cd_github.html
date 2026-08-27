@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>دليل شامل CI/CD مع Node.js & Express</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 16mm 14mm;
+        }
+
+        :root {
+            --blue: #2563eb;
+            --dark: #1e293b;
+            --navy: #1e3a5f;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1a1a1a;
+            --muted: #64748b;
+            --green: #16a34a;
+            --amber: #d97706;
+            --code-bg: #0f172a;
+            --code-fg: #e2e8f0;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.75;
+            color: var(--text);
+            background: #fff;
+        }
+
+        /* ── Cover ── */
+        .cover {
+            text-align: center;
+            padding: 90px 20px 50px;
+            page-break-after: always;
+            border-bottom: 3px solid var(--blue);
+        }
+
+        .cover h1 {
+            font-size: 32px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .cover .sub {
+            font-size: 17px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--blue);
+            color: #fff;
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 3px;
+        }
+
+        .diagram {
+            font-family: 'Courier New', monospace;
+            font-size: 10.5px;
+            direction: ltr;
+            text-align: center;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin: 24px auto;
+            max-width: 400px;
+            white-space: pre;
+            line-height: 1.35;
+        }
+
+        /* ── Headings ── */
+        h2 {
+            font-size: 20px;
+            color: var(--navy);
+            border-right: 4px solid var(--blue);
+            padding-right: 10px;
+            margin: 28px 0 12px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: var(--blue);
+            margin: 16px 0 6px;
+            page-break-after: avoid;
+        }
+
+        /* ── Text ── */
+        p {
+            margin: 5px 0;
+        }
+
+        ul {
+            margin: 5px 18px 8px 0;
+        }
+
+        li {
+            margin: 2px 0;
+        }
+
+        strong {
+            color: var(--navy);
+        }
+
+        /* ── Inline Code ── */
+        code {
+            background: #f1f5f9;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 11.5px;
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+
+        /* ── Code Blocks ── */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-fg);
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            direction: ltr;
+            text-align: left;
+            line-height: 1.5;
+            margin: 8px 0 14px;
+            page-break-inside: avoid;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* ── Callout Boxes ── */
+        .box {
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-right: 4px solid;
+        }
+
+        .box.info {
+            background: #eff6ff;
+            border-color: var(--blue);
+        }
+
+        .box.warn {
+            background: #fffbeb;
+            border-color: var(--amber);
+        }
+
+        .box.success {
+            background: #f0fdf4;
+            border-color: var(--green);
+        }
+
+        /* ── Tables ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 12px;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background: var(--navy);
+            color: #fff;
+            padding: 8px 10px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:nth-child(even) td {
+            background: var(--light);
+        }
+
+        /* ── Tree ── */
+        .tree {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 11.5px;
+            direction: ltr;
+            text-align: left;
+            margin: 8px 0 14px;
+            line-height: 1.55;
+            page-break-inside: avoid;
+        }
+
+        /* ── Flow ── */
+        .flow {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 10px 0;
+            text-align: center;
+            line-height: 2.2;
+            page-break-inside: avoid;
+        }
+
+        .flow span {
+            display: inline-block;
+            background: var(--blue);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+            margin: 2px;
+        }
+
+        .flow .arr {
+            background: none;
+            color: var(--muted);
+            font-size: 14px;
+            padding: 0 2px;
+        }
+
+        /* ── Utilities ── */
+        .break {
+            page-break-before: always;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 36px;
+            padding-top: 12px;
+            border-top: 2px solid var(--border);
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.8;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            pre {
+                background: var(--code-bg) !important;
+                color: var(--code-fg) !important;
+            }
+
+            th {
+                background: var(--navy) !important;
+            }
+
+            .cover {
+                padding-top: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════ COVER ═══════════════════ -->
+    <div class="cover">
+        <h1>📘 دليل شامل لـ CI/CD</h1>
+        <p class="sub">مع مثال عملي بـ Node.js, Express & GitHub Actions</p>
+        <span class="badge">CI</span>
+        <span class="badge">CD</span>
+        <span class="badge">Caching</span>
+        <span class="badge">Secrets & Env Vars</span>
+        <span class="badge">SSH Deploy</span>
+        <span class="badge">PM2</span>
+        <span class="badge">Monitoring</span>
+        <div class="diagram">Developer
+            │ git push / PR
+            ▼
+            GitHub
+            ▼
+            ┌──────────────────────────┐
+            │ CI │
+            │ Checkout │
+            │ Cache + npm ci │
+            │ Lint │
+            │ API Tests │
+            │ Build │
+            │ Security Scan │
+            └────────────┬─────────────┘
+            ▼
+            Artifact
+            ▼
+            ┌──────────────────────────┐
+            │ CD │
+            │ Deploy Dev (SSH) │
+            │ Deploy Staging (SSH) │
+            │ Approval │
+            │ Deploy Production │
+            └────────────┬─────────────┘
+            ▼
+            Monitoring</div>
+    </div>
+
+    <!-- ═══════════════════ 1. INTRO ═══════════════════ -->
+    <h2>1️⃣ مقدمة: إيه هو CI/CD؟</h2>
+
+    <h3>CI — الدمج المستمر (Continuous Integration)</h3>
+    <p>كل مرة المطوّر يعمل <code>push</code> أو <code>Pull Request</code>، بيتم تلقائيًا: فحص الكود، تشغيل الاختبارات،
+        بناء المشروع.</p>
+
+    <h3>CD — النشر المستمر (Continuous Deployment / Delivery)</h3>
+    <p>بعد ما الكود يعدي كل الفحوصات، يترفع تلقائيًا لبيئات مختلفة:</p>
+    <ul>
+        <li><strong>Dev</strong> → بيئة التطوير</li>
+        <li><strong>Staging</strong> → بيئة تحاكي الإنتاج</li>
+        <li><strong>Production</strong> → البيئة الفعلية للمستخدمين</li>
+    </ul>
+
+    <div class="box info"><strong>الهدف:</strong> تقليل الأخطاء البشرية · سرعة النشر · جودة أعلى للكود · ثقة أكبر في كل
+        إصدار.</div>
+
+    <!-- ═══════════════════ 2. CI STAGES ═══════════════════ -->
+    <h2 class="break">2️⃣ مراحل CI بالتفصيل</h2>
+
+    <h3>🔹 Checkout — سحب الكود</h3>
+    <p>سحب الكود من GitHub على سيرفر الـ CI عشان نشتغل عليه.</p>
+    <pre><code>- name: Checkout code
+  uses: actions/checkout@v4</code></pre>
+
+    <h3>🔹 Caching + Install — الكاش وتثبيت المكتبات</h3>
+    <p>بدون cache، كل مرة الـ Pipeline بيشتغل بيحمّل كل المكتبات من الصفر. الكاش بيخزّن <code>~/.npm</code> عشان المرة
+        الجاية يكون أسرع بـ 10 مرات.</p>
+    <pre><code>- name: Setup Node.js with Cache
+  uses: actions/setup-node@v4
+  with:
+    node-version: '20'
+    cache: 'npm'          # ← كاش تلقائي لـ ~/.npm
+
+- name: Install dependencies
+  run: npm ci             # ← أسرع من npm install مع الكاش</code></pre>
+
+    <div class="box info"><strong>ليه <code>npm ci</code> مش <code>npm install</code>؟</strong></div>
+    <table>
+        <tr>
+            <th>المقارنة</th>
+            <th>npm install</th>
+            <th>npm ci</th>
+        </tr>
+        <tr>
+            <td>السرعة</td>
+            <td>أبطأ</td>
+            <td>أسرع (مع cache)</td>
+        </tr>
+        <tr>
+            <td>package-lock.json</td>
+            <td>ممكن يغيّره</td>
+            <td>بيستخدمه زي ما هو</td>
+        </tr>
+        <tr>
+            <td>node_modules</td>
+            <td>بيضيف عليه</td>
+            <td>بيمسحه ويعمل من الصفر</td>
+        </tr>
+        <tr>
+            <td>مناسب لـ</td>
+            <td>التطوير المحلي</td>
+            <td>CI/CD</td>
+        </tr>
+    </table>
+
+    <div class="box warn"><strong>كاش يدوي (للحالات الخاصة):</strong></div>
+    <pre><code>- name: Cache node_modules
+  uses: actions/cache@v4
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-</code></pre>
+
+    <h3>🔹 Lint — فحص جودة الكود</h3>
+    <p>فحص تنسيق الكود وكشف الأخطاء الشكلية باستخدام ESLint.</p>
+    <pre><code>- name: Run ESLint
+  run: npm run lint</code></pre>
+
+    <h3>🔹 API & Unit Tests — اختبارات الـ API</h3>
+    <p>اختبار صحة استجابة الـ Endpoints (مثل <code>/</code> و <code>/health</code>) باستخدام Jest و Supertest للتأكد إن
+        السيرفر شغال وسليم.</p>
+    <pre><code>- name: Run Tests
+  run: npm test</code></pre>
+
+    <h3>🔹 Build — بناء المشروع</h3>
+    <p>بناء نسخة جاهزة للتشغيل في بيئة الإنتاج.</p>
+    <pre><code>- name: Build project
+  run: npm run build</code></pre>
+
+    <h3>🔹 Security Scanning — فحص الأمان</h3>
+    <p>فحص الثغرات في المكتبات باستخدام <code>npm audit</code>.</p>
+    <pre><code>- name: Security audit
+  run: npm audit --audit-level=high</code></pre>
+
+    <!-- ═══════════════════ 3. ARTIFACT ═══════════════════ -->
+    <h2>3️⃣ Artifact — الناتج النهائي</h2>
+    <p>الناتج النهائي بعد الـ Build (زي مجلد <code>dist/</code> أو ملفات المشروع). بيتخزن على GitHub عشان يتستخدم في الـ
+        CD بدون إعادة بناء.</p>
+    <pre><code>- name: Upload artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: app-build
+    path: .</code></pre>
+
+    <!-- ═══════════════════ 4. ENV VARS ═══════════════════ -->
+    <h2 class="break">4️⃣ Environment Variables — المتغيرات البيئية</h2>
+    <p>في الـ CI/CD عندك <strong>3 أنواع</strong> من المتغيرات:</p>
+
+    <h3>أ) Secrets — البيانات الحساسة 🔒</h3>
+    <p>كلمات السر، API Keys، مفاتيح SSH. <strong>مش بتظهر في الكود ولا في الـ Logs.</strong></p>
+    <p><strong>المكان:</strong> GitHub → Settings → Secrets and variables → Actions</p>
+    <pre><code>steps:
+  - name: Use secret
+    env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      API_KEY: ${{ secrets.API_KEY }}
+    run: echo "Connecting to database..."</code></pre>
+
+    <h3>ب) Environment Variables — متغيرات البيئة 🌍</h3>
+    <p>URLs، Ports، أسماء البيئات. بتتغير حسب كل Environment.</p>
+    <p><strong>المكان:</strong> GitHub → Settings → Environments → (اختر البيئة) → Environment variables</p>
+    <pre><code>jobs:
+  deploy-production:
+    environment: production
+    steps:
+      - run: echo "URL is ${{ vars.SERVER_URL }}"</code></pre>
+
+    <h3>ج) Workflow Variables — متغيرات الملف ⚙️</h3>
+    <p>متغيرات ثابتة مش حساسة، بتتحط جوه ملف الـ YAML نفسه.</p>
+    <pre><code>env:
+  NODE_ENV: production
+  APP_PORT: 3000
+
+jobs:
+  build:
+    steps:
+      - run: echo "Port is $APP_PORT"</code></pre>
+
+    <!-- ═══════════════════ 5. CD STAGES ═══════════════════ -->
+    <h2 class="break">5️⃣ مراحل CD بالتفصيل</h2>
+
+    <h3>🔹 Deploy Dev</h3>
+    <p>نشر أولي على بيئة التطوير للتجربة السريعة.</p>
+
+    <h3>🔹 Deploy Staging</h3>
+    <p>نشر على بيئة تحاكي الإنتاج تمامًا للاختبار النهائي.</p>
+
+    <h3>🔹 Approval — الموافقة اليدوية</h3>
+    <p>بوابة أمان: موافقة يدوية من مسؤول قبل النشر على الإنتاج.</p>
+    <pre><code>environment:
+  name: production
+  # فعّل "Required reviewers" في إعدادات GitHub Environment</code></pre>
+
+    <h3>🔹 Deploy Production</h3>
+    <p>النشر الفعلي. الكود بيوصل للمستخدمين الحقيقيين.</p>
+
+    <!-- ═══════════════════ 6. SSH DEPLOY ═══════════════════ -->
+    <h2 class="break">6️⃣ Deploy حقيقي على سيرفر بالـ SSH</h2>
+    <p>بنستخدم <strong>SSH</strong> عشان نوصل للسيرفر ونشغّل أوامر عليه تلقائيًا بعد كل push.</p>
+
+    <h3>الخطوة 1: جهّز Secrets في GitHub</h3>
+    <p>GitHub → Settings → Secrets and variables → Actions</p>
+    <table>
+        <tr>
+            <th>Secret Name</th>
+            <th>القيمة</th>
+        </tr>
+        <tr>
+            <td><code>DEV_HOST</code></td>
+            <td>IP السيرفر أو الدومين</td>
+        </tr>
+        <tr>
+            <td><code>DEV_USER</code></td>
+            <td>اسم اليوزر (مثلاً: ubuntu)</td>
+        </tr>
+        <tr>
+            <td><code>DEV_SSH_KEY</code></td>
+            <td>محتوى ملف Private Key كامل</td>
+        </tr>
+    </table>
+
+    <h3>الخطوة 2: SSH Action — تشغيل أوامر على السيرفر</h3>
+    <pre><code>- name: Deploy via SSH
+  uses: appleboy/ssh-action@v1
+  with:
+    host: ${{ secrets.DEV_HOST }}
+    username: ${{ secrets.DEV_USER }}
+    key: ${{ secrets.DEV_SSH_KEY }}
+    script: |
+      cd /var/www/my-app
+      git pull origin main
+      npm ci --production
+      pm2 restart my-app
+      echo "✅ Deployed!"</code></pre>
+
+    <div class="box success"><strong>✅ ليه PM2؟</strong> بيخلي التطبيق يشتغل في الخلفية، بيعمل restart تلقائي لو وقع،
+        وبيسجّل الـ Logs.</div>
+
+    <!-- ═══════════════════ 7. MONITORING ═══════════════════ -->
+    <h2>7️⃣ Monitoring — المراقبة</h2>
+    <p>بعد النشر، بنراقب الأداء والأخطاء باستمرار:</p>
+    <ul>
+        <li><strong>New Relic</strong> — أداء التطبيقات</li>
+        <li><strong>Datadog</strong> — البنية التحتية</li>
+        <li><strong>Prometheus + Grafana</strong> — مقاييس ورسوم بيانية</li>
+    </ul>
+
+    <!-- ═══════════════════ 8. PROJECT FILES ═══════════════════ -->
+    <h2 class="break">8️⃣ المثال العملي: ملفات مشروع Express.js</h2>
+
+    <h3>📁 هيكل المشروع</h3>
+    <div class="tree">my-node-app/
+        ├── src/
+        │ ├── app.js
+        │ └── server.js
+        ├── test/
+        │ └── api.test.js
+        ├── .eslintrc.json
+        ├── package.json
+        └── .github/
+        └── workflows/
+        └── ci-cd.yml</div>
+
+    <h3>📄 package.json</h3>
+    <pre><code>{
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "eslint src/",
+    "test": "jest --detectOpenHandles"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "supertest": "^6.3.4"
+  }
+}</code></pre>
+
+    <h3>📄 src/app.js</h3>
+    <pre><code>const express = require("express");
+
+const app = express();
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.json({
+        message: "Hello from GitHub Actions",
+    });
+});
+
+app.get("/health", (req, res) => {
+    res.json({
+        status: "ok",
+        message: "Server is healthy",
+    });
+});
+
+module.exports = app;</code></pre>
+
+    <h3>📄 src/server.js</h3>
+    <pre><code>const app = require("./app");
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});</code></pre>
+
+    <h3>📄 test/api.test.js</h3>
+    <pre><code>const request = require("supertest");
+const app = require("../src/app");
+
+describe("Express API Endpoints", () => {
+    it("GET / should return welcome message", async () => {
+        const res = await request(app).get("/");
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.message).toBe("Hello from GitHub Actions");
+    });
+
+    it("GET /health should return ok status", async () => {
+        const res = await request(app).get("/health");
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.status).toBe("ok");
+        expect(res.body.message).toBe("Server is healthy");
+    });
+});</code></pre>
+
+    <h3>📄 .eslintrc.json</h3>
+    <pre><code>{
+  "env": { "node": true, "jest": true, "es2021": true },
+  "extends": "eslint:recommended",
+  "rules": { "no-unused-vars": "warn" }
+}</code></pre>
+
+    <!-- ═══════════════════ 9. FULL WORKFLOW ═══════════════════ -->
+    <h2 class="break">9️⃣ ملف GitHub Actions الكامل</h2>
+    <p>بيجمع: Caching + Secrets + Env Vars + SSH Deploy + PM2</p>
+
+    <pre><code>name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_ENV: production
+
+jobs:
+
+  # ══════════ CI ══════════
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node + Cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm audit --audit-level=high
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-files
+          path: .
+
+  # ══════════ CD ══════════
+  deploy-dev:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-files
+
+      - name: Deploy to Dev Server via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USER }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          envs: NODE_ENV,DB_PASSWORD
+          script: |
+            cd /var/www/my-app
+            git pull origin main
+            npm ci --production
+            pm2 restart my-app || pm2 start src/server.js --name "my-app"
+            echo "✅ Dev Deployed!"
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+  deploy-staging:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /var/www/my-app
+            git pull origin main
+            npm ci --production
+            pm2 restart my-app
+
+  approval:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "✅ Approved"
+
+  deploy-production:
+    needs: approval
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          envs: NODE_ENV,DB_PASSWORD
+          script: |
+            cd /var/www/my-app
+            git pull origin main
+            npm ci --production
+            pm2 restart my-app
+            echo "🚀 Production Deployed!"
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}</code></pre>
+
+    <!-- ═══════════════════ 10. FLOW ═══════════════════ -->
+    <h2>🔟 تسلسل الـ Pipeline</h2>
+    <div class="flow">
+        <span>Push</span><span class="arr">→</span>
+        <span>GitHub</span><span class="arr">→</span>
+        <span>Checkout</span><span class="arr">→</span>
+        <span>Cache + npm ci</span><span class="arr">→</span>
+        <span>Lint</span><span class="arr">→</span>
+        <span>API Tests</span><span class="arr">→</span>
+        <span>Security</span><span class="arr">→</span>
+        <span>Artifact</span><span class="arr">→</span>
+        <span>SSH Dev</span><span class="arr">→</span>
+        <span>SSH Staging</span><span class="arr">→</span>
+        <span>Approval</span><span class="arr">→</span>
+        <span>SSH Production</span><span class="arr">→</span>
+        <span>Monitoring</span>
+    </div>
+
+    <!-- ═══════════════════ 11. CHEAT SHEET ═══════════════════ -->
+    <h2 class="break">1️⃣1️⃣ ملخص سريع</h2>
+    <table>
+        <tr>
+            <th>المرحلة</th>
+            <th>الهدف</th>
+            <th>الأداة</th>
+        </tr>
+        <tr>
+            <td>Checkout</td>
+            <td>سحب الكود</td>
+            <td>actions/checkout</td>
+        </tr>
+        <tr>
+            <td>Caching</td>
+            <td>تسريع التثبيت</td>
+            <td>cache: 'npm'</td>
+        </tr>
+        <tr>
+            <td>Install</td>
+            <td>تثبيت المكتبات</td>
+            <td>npm ci</td>
+        </tr>
+        <tr>
+            <td>Lint</td>
+            <td>فحص الكود</td>
+            <td>ESLint</td>
+        </tr>
+        <tr>
+            <td>API Tests</td>
+            <td>اختبار الـ Endpoints</td>
+            <td>Jest / Supertest</td>
+        </tr>
+        <tr>
+            <td>Security</td>
+            <td>فحص الثغرات</td>
+            <td>npm audit</td>
+        </tr>
+        <tr>
+            <td>Artifact</td>
+            <td>حفظ ناتج البناء</td>
+            <td>upload-artifact</td>
+        </tr>
+        <tr>
+            <td>Secrets</td>
+            <td>حماية البيانات الحساسة</td>
+            <td>${{ secrets.X }}</td>
+        </tr>
+        <tr>
+            <td>Env Vars</td>
+            <td>إعدادات كل بيئة</td>
+            <td>${{ vars.X }}</td>
+        </tr>
+        <tr>
+            <td>SSH Deploy</td>
+            <td>أوامر على السيرفر</td>
+            <td>appleboy/ssh-action</td>
+        </tr>
+        <tr>
+            <td>Approval</td>
+            <td>موافقة يدوية</td>
+            <td>GitHub Environment</td>
+        </tr>
+        <tr>
+            <td>PM2</td>
+            <td>تشغيل في الخلفية</td>
+            <td>pm2 restart</td>
+        </tr>
+        <tr>
+            <td>Monitoring</td>
+            <td>مراقبة بعد النشر</td>
+            <td>Grafana / Datadog</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        دليل شامل لـ CI/CD · Express.js · GitHub Actions<br>
+        Caching · Secrets · Env Vars · SSH Deploy · PM2 · Monitoring
+    </div>
+
+</body>
+
+</html>

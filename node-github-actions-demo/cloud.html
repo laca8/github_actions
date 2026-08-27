@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Fundamentals - Ahmed Ragab</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 14mm 13mm;
+        }
+
+        :root {
+            --primary: #1f6feb;
+            --dark: #0d1b2a;
+            --accent: #ff9900;
+            --soft: #f4f7fb;
+            --border: #dde5ef;
+            --green: #1a7f5a;
+            --red: #c0392b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
+            color: #1c2530;
+            line-height: 1.9;
+            font-size: 12.5px;
+            margin: 0;
+            background: #fff;
+        }
+
+        .cover {
+            height: 265mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(160deg, #0d1b2a 0%, #1b3a5c 55%, #1f6feb 100%);
+            color: #fff;
+            border-radius: 14px;
+            page-break-after: always;
+            padding: 30px;
+        }
+
+        .cover .ico {
+            font-size: 64px;
+            margin-bottom: 6px;
+        }
+
+        .cover h1 {
+            font-size: 40px;
+            margin: 0 0 6px;
+            font-weight: 700;
+        }
+
+        .cover h2 {
+            font-size: 19px;
+            font-weight: 400;
+            opacity: .9;
+            margin: 0 0 28px;
+            border: none;
+            color: #fff;
+        }
+
+        .cover .line {
+            width: 130px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+            margin: 14px 0 26px;
+        }
+
+        .cover .cbox {
+            background: rgba(255, 255, 255, .10);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 12px;
+            padding: 16px 34px;
+            font-size: 14px;
+        }
+
+        .cover .name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .cover .meta {
+            font-size: 12px;
+            opacity: .8;
+            margin-top: 40px;
+        }
+
+        .cover .tags {
+            margin-top: 24px;
+            font-size: 11.5px;
+            opacity: .85;
+            letter-spacing: 1px;
+        }
+
+        .toc {
+            page-break-after: always;
+        }
+
+        .toc ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: t;
+        }
+
+        .toc li {
+            counter-increment: t;
+            border-bottom: 1px dashed var(--border);
+            padding: 9px 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc li::before {
+            content: counter(t);
+            background: var(--primary);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .toc li.sub {
+            padding-right: 36px;
+            font-size: 12px;
+            color: #4a5a6a;
+            border-bottom: 1px dotted #eef2f7;
+        }
+
+        .toc li.sub::before {
+            background: #8fa8c4;
+        }
+
+        h1.part {
+            background: var(--dark);
+            color: #fff;
+            padding: 11px 16px;
+            border-radius: 9px;
+            font-size: 19px;
+            margin: 26px 0 16px;
+            border-right: 6px solid var(--accent);
+            page-break-after: avoid;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 16px;
+            margin: 22px 0 9px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--border);
+            page-break-after: avoid;
+        }
+
+        h3 {
+            color: var(--dark);
+            font-size: 14px;
+            margin: 16px 0 7px;
+            page-break-after: avoid;
+        }
+
+        h3::before {
+            content: "▪ ";
+            color: var(--accent);
+        }
+
+        p {
+            margin: 6px 0;
+        }
+
+        ul {
+            margin: 6px 0;
+            padding-right: 20px;
+        }
+
+        li {
+            margin: 3px 0;
+        }
+
+        ul.clean {
+            list-style: none;
+            padding-right: 6px;
+        }
+
+        ul.clean li::before {
+            content: "✔";
+            color: var(--green);
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        pre {
+            direction: ltr;
+            text-align: left;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            background: #0d1b2a;
+            color: #d7e3f0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.55;
+            white-space: pre;
+            margin: 9px 0;
+            border-right: 4px solid var(--primary);
+            page-break-inside: avoid;
+            overflow: hidden;
+        }
+
+        pre.light {
+            background: var(--soft);
+            color: #1c2530;
+            border-right: 4px solid var(--accent);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #eef3fa;
+            color: #0b4fa8;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 11px;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .box {
+            border-radius: 9px;
+            padding: 11px 14px;
+            margin: 11px 0;
+            font-size: 12px;
+            page-break-inside: avoid;
+        }
+
+        .note {
+            background: #eaf2ff;
+            border-right: 5px solid var(--primary);
+        }
+
+        .tip {
+            background: #e9f8f1;
+            border-right: 5px solid var(--green);
+        }
+
+        .warn {
+            background: #fff4e5;
+            border-right: 5px solid var(--accent);
+        }
+
+        .danger {
+            background: #fdecea;
+            border-right: 5px solid var(--red);
+        }
+
+        .box b {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 11px 0;
+            font-size: 11.5px;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background: var(--dark);
+            color: #fff;
+            padding: 8px 10px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        td {
+            border: 1px solid var(--border);
+            padding: 7px 10px;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafcff;
+        }
+
+        td.ltr,
+        th.ltr {
+            direction: ltr;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .yes {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .no {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .q {
+            background: var(--soft);
+            border-right: 4px solid var(--dark);
+            padding: 9px 13px;
+            border-radius: 7px;
+            margin: 10px 0;
+            page-break-inside: avoid;
+        }
+
+        .q b {
+            color: var(--primary);
+        }
+
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        .chip {
+            display: inline-block;
+            background: #eef3fa;
+            color: #0b4fa8;
+            border: 1px solid #cfe0f5;
+            border-radius: 20px;
+            padding: 2px 11px;
+            font-size: 11px;
+            margin: 3px 3px 3px 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 10.5px;
+            color: #8a97a6;
+            border-top: 1px solid var(--border);
+            margin-top: 26px;
+            padding-top: 8px;
+        }
+
+        .two {
+            display: flex;
+            gap: 12px;
+        }
+
+        .two>div {
+            flex: 1;
+        }
+
+        .ib {
+            display: inline !important;
+        }
+
+        @media print {
+            .hint {
+                display: none !important;
+            }
+        }
+
+        .hint {
+            background: #fff4e5;
+            border: 2px dashed var(--accent);
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hint">
+        📄 لو شاشة الطباعة مافتحتش لوحدها → دوس <b>Ctrl + P</b> واختار <b>Save as PDF</b> + فعّل <b>Background
+            graphics</b>
+    </div>
+
+    <div class="cover">
+        <div class="ico">☁️</div>
+        <h1>Cloud Fundamentals</h1>
+        <h2>ملاحظات ومسار تعلّم شامل — من الأساسيات إلى AWS</h2>
+        <div class="line"></div>
+        <div class="cbox">
+            <div class="name">Ahmed Ragab</div>
+            <div>Study Notes &amp; Roadmap</div>
+        </div>
+        <div class="tags">VIRTUALIZATION · CONTAINERS · IaaS / PaaS / SaaS · SHARED RESPONSIBILITY · NETWORKING · IAM ·
+            EC2</div>
+        <div class="meta">مُجمّع ومُرتّب حسب تسلسل الـ Roadmap</div>
+    </div>
+
+    <div class="toc">
+        <h1 class="part">📑 المحتويات</h1>
+        <ol>
+            <li>الـ Roadmap ومسارات التعلّم</li>
+            <li>Introduction to Cloud Computing</li>
+            <li class="sub">Historical Overview · Virtualization · Containerization · Traditional IT vs Cloud</li>
+            <li>Core Characteristics of Cloud Computing</li>
+            <li>Cloud Service Models — IaaS / PaaS / SaaS</li>
+            <li>Cloud Deployment Models</li>
+            <li>Benefits of Cloud Computing</li>
+            <li>Cloud Pricing &amp; Cost Concepts 💰</li>
+            <li>Shared Responsibility Model 🔐</li>
+            <li>Basic Cloud Networking 🌐</li>
+            <li>Availability &amp; Reliability</li>
+            <li>AWS Track — IAM</li>
+            <li>AWS Track — EC2</li>
+            <li>Cheat Sheet — ملخص سريع</li>
+        </ol>
+    </div>
+
+    <h1 class="part">0 · الـ Roadmap ومسارات التعلّم</h1>
+    <h2>☁️ Cloud Fundamentals Roadmap</h2>
+    <table>
+        <tr>
+            <th style="width:50px">#</th>
+            <th>الموضوع</th>
+            <th style="width:110px">الحالة</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Introduction to Cloud Computing</td>
+            <td><span class="yes">✅ تم</span></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Core Characteristics of Cloud Computing</td>
+            <td><b style="color:var(--accent)">← التالي</b></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Cloud Service Models (IaaS / PaaS / SaaS)</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Cloud Deployment Models</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Benefits of Cloud Computing</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Cloud Pricing &amp; Cost Concepts 💰</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Shared Responsibility Model 🔐</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Basic Cloud Networking 🌐</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Availability &amp; Reliability</td>
+            <td>—</td>
+        </tr>
+    </table>
+
+    <h2>🛤️ مسارات التعلّم</h2>
+    <div class="two">
+        <div>
+            <h3>المسار الأول (الشامل)</h3>
+            <pre class="light">Cloud Fundamentals
+       ↓
+AWS Cloud Practitioner concepts
+       ↓
+AWS Solutions Architect Associate
+       ↓
+AWS Developer Associate
+       ↓
+Docker + CI/CD
+       ↓
+Real AWS Project</pre>
+        </div>
+        <div>
+            <h3>المسار الثاني (المختصر)</h3>
+            <pre class="light">Cloud Fundamentals
+       ↓
+    SAA-C03
+       ↓
+    DVA-C02</pre>
+        </div>
+    </div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">1 · Introduction to Cloud Computing</h1>
+    <h2>🎯 الفكرة الأساسية</h2>
+    <div class="box note">بدل ما الشركة تشتري وتملك كل الـ <b class="ib">IT Infrastructure</b> بنفسها، تقدر تستخدم موارد
+        حوسبة موجودة عند <b class="ib">Cloud Provider</b> وتدفع حسب الاستخدام.</div>
+
+    <h2>1️⃣ Historical Overview</h2>
+    <h3>🖥️ المرحلة الأولى: Physical Servers</h3>
+    <p>لو الشركة عايزة تبني Application كانت بتعمل إيه؟</p>
+    <pre>Company
+   │
+   ├── Buy Server
+   ├── Buy Storage
+   ├── Buy Network Equipment
+   ├── Setup Data Center
+   └── Hire IT Team</pre>
+
+    <h2>2️⃣ Virtualization</h2>
+    <p>ظهرت الفكرة: بدل ما أستخدم سيرفر كامل لتطبيق واحد، ليه ما أقسّمش السيرفر إلى <code>Virtual Machines</code>؟</p>
+    <h3>مثال — Physical Server مقسّم</h3>
+    <pre>Physical Server
+16 CPU  |  64 GB RAM
+│
+├── VM 1
+│   ├── 4 CPU
+│   ├── 16 GB RAM
+│   └── Linux
+│       └── Application A
+│
+├── VM 2
+│   ├── 4 CPU
+│   ├── 16 GB RAM
+│   └── Linux
+│       └── Application B
+│
+└── VM 3
+    ├── 4 CPU
+    ├── 16 GB RAM
+    └── Windows
+        └── Application C</pre>
+
+    <h3>من غير Virtual Machines</h3>
+    <pre class="light">Physical Server
+│
+├── Application A
+├── Application B
+└── Application C
+
+⚠ كل التطبيقات بتستخدم نفس الـ Operating System</pre>
+    <div class="box danger"><b>المشكلة:</b> ممكن يحصل تعارض في الـ Dependencies · Configuration · Permissions · Ports
+    </div>
+
+    <h3>أهم حاجة في فكرة الـ VM = Isolation</h3>
+    <pre>VM 1              VM 2              VM 3
+Ubuntu            Ubuntu            Windows
+Node.js App       Python App        .NET App</pre>
+
+    <h3>مين بيعمل الـ VMs؟ → الـ Hypervisor</h3>
+    <p>هو البرنامج المسؤول عن إنشاء وإدارة الـ Virtual Machines.</p>
+    <pre>Physical Hardware
+       ↓
+   Hypervisor
+   ↙    ↓    ↘
+ VM1   VM2   VM3</pre>
+    <p><b>أمثلة:</b><span class="chip">VMware ESXi</span><span class="chip">Microsoft Hyper-V</span><span
+            class="chip">KVM</span><span class="chip">VirtualBox</span></p>
+
+    <h3>☁️ علاقة الكلام ده بـ AWS</h3>
+    <p>AWS عندها <b class="ib">Data Centers</b> فيها أعداد ضخمة من الـ Physical Servers. بدل «خد Physical Server كامل» →
+        «خد VM بالمواصفات اللي أنت محتاجها». وده المفهوم الأساسي وراء <b class="ib">EC2</b>.</p>
+    <pre class="light">I need:
+  4 vCPU
+  16 GB RAM
+  Linux
+        ↓
+AWS توفّر لك Virtual Server مناسب
+        ↓
+   Your EC2 → Linux → Your Application</pre>
+
+    <div class="two">
+        <div>
+            <pre class="light">Multiple Apps on One Server
+Server
+ └── OS
+      ├── App A
+      ├── App B
+      └── App C</pre>
+        </div>
+        <div>
+            <pre class="light">Multiple VMs on One Server
+Server
+ └── Hypervisor
+      ├── VM 1 → OS → App A
+      ├── VM 2 → OS → App B
+      └── VM 3 → OS → App C</pre>
+        </div>
+    </div>
+    <div class="box warn"><b>مهم:</b> الـ Virtual Machine ≠ Application. هو <b class="ib">كمبيوتر افتراضي كامل</b> شغّال
+        جوّه كمبيوتر حقيقي.</div>
+
+    <h2>3️⃣ Containerization 📦</h2>
+    <p>بعد الـ VMs ظهرت الـ Containers. الـ VM بتحتاج عادةً إلى <code>Guest OS</code>.</p>
+    <div class="two">
+        <div>
+            <h3>VM</h3>
+            <pre>Physical Server
+       ↓
+   Hypervisor
+       ↓
+      VM
+       ↓
+   Guest OS
+       ↓
+  Application</pre>
+        </div>
+        <div>
+            <h3>Container</h3>
+            <pre>Physical Server
+       ↓
+Operating System
+       ↓
+Container Runtime
+       ↓
+   Containers
+   ├── App A
+   ├── App B
+   └── App C</pre>
+        </div>
+    </div>
+
+    <h2>4️⃣ إيه علاقة Virtualization بالـ Cloud؟</h2>
+    <div class="box danger"><b>Cloud ≠ Virtualization</b> — الـ Virtualization تقنية، والـ Cloud نموذج تقديم خدمة
+        بيستخدمها.</div>
+    <pre>                Cloud Provider
+                      │
+        ┌─────────────┴─────────────┐
+        ↓                           ↓
+  Physical Servers            Physical Servers
+        ↓                           ↓
+   Virtualization              Virtualization
+        ↓                           ↓
+       VMs                         VMs
+        ↓                           ↓
+   Customers                   Customers</pre>
+
+    <h2>5️⃣ هل إحنا بنستخدم Cloud Computing؟ ✅ أيوه</h2>
+    <p><span class="chip">Gmail</span><span class="chip">Google Drive</span><span class="chip">Netflix</span><span
+            class="chip">YouTube</span><span class="chip">Microsoft 365</span><span class="chip">Dropbox</span><span
+            class="chip">Online Banking</span></p>
+
+    <h2>6️⃣ Traditional IT vs Cloud</h2>
+    <div class="two">
+        <div>
+            <h3>Traditional Data Center</h3>
+            <pre class="light">Company
+   ↓
+Buy Hardware
+   ↓
+Install Hardware
+   ↓
+Configure
+   ↓
+Maintain
+   ↓
+Upgrade</pre>
+        </div>
+        <div>
+            <h3>Cloud</h3>
+            <pre class="light">Company
+   ↓
+Cloud Provider
+   ↓
+Select Resources
+   ↓
+Configure
+   ↓
+Use
+   ↓
+Pay</pre>
+        </div>
+    </div>
+    <div class="box tip">في الـ Cloud: الـ Provider هو اللي بيدير الـ <b class="ib">underlying infrastructure</b>.</div>
+
+    <h2>7️⃣ مثال قريب منك كـ Developer 👨‍💻</h2>
+    <p>تخيّل إنك عامل: <code>React Frontend</code> + <code>Django API</code> + <code>PostgreSQL</code> +
+        <code>Redis</code></p>
+    <table>
+        <tr>
+            <th style="width:50%">Traditional Infrastructure</th>
+            <th>Cloud Services</th>
+        </tr>
+        <tr>
+            <td>Servers · Networking · Storage · Database Server · Backup · Monitoring · Security</td>
+            <td class="ltr">React&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ CloudFront / S3<br>Django API → EC2 /
+                ECS<br>Database&nbsp;&nbsp;&nbsp;→ RDS<br>Files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ S3<br>Monitoring →
+                CloudWatch</td>
+        </tr>
+    </table>
+
+    <h2>8️⃣ هل الـ Cloud معناها «سيرفر على الإنترنت»؟ ❌ لأ</h2>
+    <p><span class="chip">Compute</span><span class="chip">Storage</span><span class="chip">Database</span><span
+            class="chip">Networking</span><span class="chip">Security</span><span class="chip">Scaling</span><span
+            class="chip">Monitoring</span><span class="chip">Automation</span><span class="chip">Managed
+            Services</span><span class="chip">AI</span><span class="chip">Analytics</span></p>
+
+    <h2>🔄 Evolution</h2>
+    <pre>Physical Servers
+       ↓
+  Virtualization
+       ↓
+   Containers
+       ↓
+Cloud Computing
+       ↓
+ Cloud Services</pre>
+
+    <h2>📝 مراجعة سريعة — Q&amp;A</h2>
+    <div class="q"><b>Q1: What is cloud computing?</b><br>بدل ما الشركة تمتلك وتدير الـ IT Infrastructure بنفسها، تستخدم
+        موارد حوسبة عند Cloud Provider وتدفع حسب الاستخدام.</div>
+    <div class="q"><b>Q2: What problem does virtualization solve?</b><br>بتسمح بتشغيل <span dir="ltr">multiple virtual
+            machines on one physical server</span> — مع Isolation ومنع تعارض الـ Dependencies.</div>
+    <div class="q"><b>Q3: VM vs Container?</b>
+        <pre class="light">VM                    Container
+App                   App
+ ↓                     ↓
+Guest OS              Container
+ ↓                     ↓
+Virtual Hardware      Host OS Kernel
+
+→ Containers are lightweight compared to VMs</pre>
+    </div>
+    <div class="q"><b>Q4: Is virtualization the same as cloud computing?</b> <span class="no">No.</span><br>الـ
+        Virtualization <b class="ib">technology</b>، والـ Cloud Computing <b class="ib">service delivery model</b>
+        بيعتمد على تقنيات كتير والـ Virtualization واحدة منهم.</div>
+    <div class="q"><b>Q5: Examples?</b><br>AWS · Microsoft Azure · Google Cloud · Google Drive · Microsoft 365 · Dropbox
+    </div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">2 · Core Characteristics of Cloud Computing</h1>
+    <pre class="light">1- On-Demand Self-Service
+2- Broad Network Access
+3- Resource Pooling
+4- Rapid Elasticity
+5- Measured Service</pre>
+
+    <h2>1️⃣ On-Demand Self-Service</h2>
+    <p>تقدر تطلب الـ Resources اللي محتاجها <b class="ib">بنفسك</b> — من غير ما تكلّم حد.</p>
+    <pre>Developer
+   ↓
+AWS Console / API
+   ↓
+Create Resource
+   ↓
+Ready 🚀</pre>
+    <div class="box tip">مثال: تقدر تعمل <b class="ib">EC2 Instance</b> من الـ Console مباشرة.</div>
+
+    <h2>2️⃣ Broad Network Access 🌐</h2>
+    <pre>             Internet
+                │
+       ┌────────┼────────┐
+       ↓        ↓        ↓
+    Laptop    Mobile   Server
+       │        │        │
+       └────────┼────────┘
+                ↓
+               AWS</pre>
+    <pre class="light">Mobile App
+    ↓
+  HTTPS
+    ↓
+ AWS API</pre>
+
+    <h2>3️⃣ Resource Pooling</h2>
+    <pre>AWS Data Center
+
+Servers
+████████████████████
+
+Storage
+████████████████████
+
+Network
+████████████████████</pre>
+    <p>كل عميل بيشوف الموارد اللي اتخصصت له، ومش محتاج يعرف الـ Physical Server تحته.</p>
+    <div class="box note"><b>Multi-tenancy</b> نفس الـ Infrastructure ممكن تخدم عملاء مختلفين مع <b class="ib">Logical
+            Isolation</b>.</div>
+
+    <h2>4️⃣ Rapid Elasticity</h2>
+    <p>الموارد تزيد وتقلّ بسرعة حسب الطلب.</p>
+    <h2>5️⃣ Measured Service</h2>
+    <p>الاستخدام بيتقاس، وبتدفع على قد ما استخدمت.</p>
+
+    <h2>🧠 احفظهم بالطريقة دي</h2>
+    <table>
+        <tr>
+            <th style="width:35%">Characteristic</th>
+            <th>معناها ببساطة</th>
+        </tr>
+        <tr>
+            <td class="ltr">On-Demand Self-Service</td>
+            <td>اطلب الـ Resource بنفسك</td>
+        </tr>
+        <tr>
+            <td class="ltr">Broad Network Access</td>
+            <td>Access عبر الشبكة من أي جهاز</td>
+        </tr>
+        <tr>
+            <td class="ltr">Resource Pooling</td>
+            <td>موارد مشتركة وموزّعة بين الـ Customers</td>
+        </tr>
+        <tr>
+            <td class="ltr">Rapid Elasticity</td>
+            <td>الموارد تزيد / تقلّ بسرعة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Measured Service</td>
+            <td>الاستخدام بيتقاس</td>
+        </tr>
+    </table>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">3 · Cloud Service Models — IaaS / PaaS / SaaS</h1>
+    <div class="box note">السؤال الأساسي: <b class="ib">مين مسؤول عن إيه؟</b> — أنت ولا الـ Cloud Provider؟</div>
+
+    <h2>1️⃣ IaaS — Infrastructure as a Service</h2>
+    <pre>AWS
+│
+├── Physical Data Center       ← AWS
+├── Physical Server            ← AWS
+├── Networking                 ← AWS
+├── Storage                    ← AWS
+│
+└── Virtual Machine (EC2)
+        ↓
+      Linux                    ← أنت
+        ↓
+   Node / Python               ← أنت
+        ↓
+   Your Application            ← أنت</pre>
+    <pre class="light">AWS EC2
+   ↓
+Ubuntu
+   ↓
+Python
+   ↓
+Django
+   ↓
+Your API</pre>
+    <p><b>إنت مسؤول عن:</b></p>
+    <ul class="clean">
+        <li>OS</li>
+        <li>Runtime</li>
+        <li>Application</li>
+        <li>Application Configuration</li>
+        <li>Data</li>
+        <li>Security Configuration</li>
+    </ul>
+    <p><b>أمثلة:</b><span class="chip">AWS EC2</span><span class="chip">Azure VMs</span><span class="chip">Google
+            Compute Engine</span></p>
+
+    <h2>2️⃣ PaaS — Platform as a Service</h2>
+    <p>أنت بتقول له: <b class="ib">«عندي Application… شغّلهولي.»</b></p>
+    <pre>You
+ ↓
+Your Application
+ ↓
+PaaS
+ ↓
+Cloud Provider Infrastructure</pre>
+    <div class="two">
+        <div>
+            <h3>الـ Provider بيهتم بـ</h3>
+            <ul>
+                <li>Servers</li>
+                <li>OS</li>
+                <li>Runtime</li>
+                <li>Infrastructure</li>
+                <li>Scaling (في بعض الخدمات)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>وأنت بتركّز على</h3>
+            <pre class="light">Your Code
+   ↓
+Your Application</pre>
+        </div>
+    </div>
+    <p><b>أمثلة:</b><span class="chip">Elastic Beanstalk</span><span class="chip">Heroku</span><span class="chip">Google
+            App Engine</span><span class="chip">Azure App Service</span></p>
+
+    <h2>3️⃣ SaaS — Software as a Service</h2>
+    <p>أنت بتستخدم <b class="ib">Software جاهز</b>.</p>
+    <pre class="light">You
+ ↓
+Gmail</pre>
+
+    <h2>⚖️ جدول المسؤوليات</h2>
+    <table>
+        <tr>
+            <th>الطبقة</th>
+            <th style="width:20%">IaaS</th>
+            <th style="width:20%">PaaS</th>
+            <th style="width:20%">SaaS</th>
+        </tr>
+        <tr>
+            <td class="ltr">Application</td>
+            <td class="no">YOU</td>
+            <td class="no">YOU</td>
+            <td class="yes">Provider</td>
+        </tr>
+        <tr>
+            <td class="ltr">Data</td>
+            <td class="no">YOU</td>
+            <td class="no">YOU</td>
+            <td class="no">YOU*</td>
+        </tr>
+        <tr>
+            <td class="ltr">Runtime</td>
+            <td class="no">YOU</td>
+            <td class="yes">Provider</td>
+            <td class="yes">Provider</td>
+        </tr>
+        <tr>
+            <td class="ltr">OS</td>
+            <td class="no">YOU</td>
+            <td class="yes">Provider</td>
+            <td class="yes">Provider</td>
+        </tr>
+        <tr>
+            <td class="ltr">Infrastructure</td>
+            <td class="yes">Provider</td>
+            <td class="yes">Provider</td>
+            <td class="yes">Provider</td>
+        </tr>
+    </table>
+    <div class="box tip"><b>الخلاصة</b>
+        <pre class="light" style="margin-top:6px">IaaS → Manage the Infrastructure   →  "Give me a Server"
+PaaS → Manage the Application      →  "Run my Application"
+SaaS → Use the Software            →  "Give me the Software"</pre>
+    </div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">4 · Cloud Deployment Models</h1>
+    <div class="box note">الـ <b class="ib">Service Model</b> بيحدّد مين بيدير إيه، أما الـ <b class="ib">Deployment
+            Model</b> فبيحدّد فين ولمين الـ Infrastructure.</div>
+    <p><span class="chip">Public</span><span class="chip">Private</span><span class="chip">Hybrid</span><span
+            class="chip">Multi-Cloud</span></p>
+
+    <h2>1️⃣ Public Cloud ☁️</h2>
+    <p>مش محتاج تشتري Physical Servers. من AWS: <code>EC2</code> <code>S3</code> <code>RDS</code> <code>Lambda</code>
+    </p>
+    <pre>                 AWS
+                  │
+       ┌──────────┼──────────┐
+       ↓          ↓          ↓
+  Customer A  Customer B  Customer C</pre>
+
+    <h2>2️⃣ Private Cloud 🏢</h2>
+    <p>الـ Infrastructure مخصّصة لمنظمة واحدة — مثلاً بنك كبير.</p>
+    <pre>                Company
+                   │
+          ┌────────┴────────┐
+          ↓                 ↓
+     Private Cloud     Private Network
+          │
+     Applications</pre>
+
+    <h2>3️⃣ Hybrid Cloud 🔀</h2>
+    <pre>                Company
+                   │
+          ┌────────┴────────┐
+          ↓                 ↓
+     Private Cloud     Public Cloud
+          │                 │
+      Database          Application</pre>
+    <pre class="light">Private Cloud            Public AWS
+     ↓                        ↓
+Sensitive Database      Web / API Servers
+
+        والاتنين بينهم connection</pre>
+
+    <h2>4️⃣ Multi-Cloud ☁️☁️</h2>
+    <pre>              Company
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+      AWS      Azure      GCP</pre>
+
+    <h2>🔍 الفرق</h2>
+    <div class="two">
+        <div>
+            <pre class="light">Hybrid Cloud
+Private + Public
+
+  Private
+     +
+    AWS</pre>
+        </div>
+        <div>
+            <pre class="light">Multi-Cloud
+Provider A + Provider B
+
+    AWS
+     +
+   Azure</pre>
+        </div>
+    </div>
+    <pre>              Company
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+    Private     AWS      Azure
+
+   → Hybrid + Multi-Cloud strategy</pre>
+
+    <table>
+        <tr>
+            <th style="width:28%">Model</th>
+            <th>الفكرة</th>
+        </tr>
+        <tr>
+            <td class="ltr">Public Cloud</td>
+            <td>Provider يقدّم Infrastructure لعملاء مختلفين</td>
+        </tr>
+        <tr>
+            <td class="ltr">Private Cloud</td>
+            <td>Environment مخصّصة لمنظمة واحدة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Hybrid Cloud</td>
+            <td>Private + Public متصلين</td>
+        </tr>
+        <tr>
+            <td class="ltr">Multi-Cloud</td>
+            <td>أكثر من Cloud Provider</td>
+        </tr>
+    </table>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">5 · Benefits of Cloud Computing</h1>
+    <div class="box note">كل الفوايد دي بترجع لفكرة واحدة: <b class="ib">تاخد قدرات كانت محتاجة Data Center كامل وفريق
+            IT — بضغطة زرار وبفلوس على قد استخدامك.</b></div>
+
+    <h2>1️⃣ Scalability — القابلية للتوسّع</h2>
+    <h3>Vertical Scaling (Scale Up)</h3>
+    <pre>       Before                     After
+   ┌──────────────┐          ┌──────────────┐
+   │  t3.micro    │   ───►   │  t3.xlarge   │
+   │  2 vCPU      │          │  4 vCPU      │
+   │  1 GB RAM    │          │  16 GB RAM   │
+   └──────────────┘          └──────────────┘
+
+   ✔ سهل جدًا (مش محتاج تغيّر الكود)
+   ✘ ليه سقف (Hardware limit)
+   ✘ غالبًا محتاج Restart → downtime</pre>
+    <h3>Horizontal Scaling (Scale Out)</h3>
+    <pre>       Before                        After
+                              ┌──────────────────────┐
+   ┌──────────┐               │    Load Balancer     │
+   │ Server 1 │      ───►     └───┬──────┬──────┬────┘
+   └──────────┘                   ↓      ↓      ↓
+                              Server1 Server2 Server3
+
+   ✔ مفيش سقف عمليًا
+   ✔ لو سيرفر وقع الباقي شغّال
+   ✘ محتاج الـ App يكون Stateless</pre>
+    <div class="box warn"><b class="ib">مهم للـ Backend Developer:</b> عشان تعمل Horizontal Scaling لازم تشيل الـ <b
+            class="ib">State</b> من السيرفر — Sessions تروح <code>Redis</code>، والملفات تروح <code>S3</code>.</div>
+
+    <h2>2️⃣ Elasticity — المرونة</h2>
+    <pre>Traffic
+  ▲
+  │            ████
+  │         ███    ███
+  │      ███          ███
+  │  ████                █████
+  └──────────────────────────────► Time
+
+Servers (Auto Scaling)
+  ▲
+  │            ▓▓▓▓
+  │         ▓▓▓    ▓▓▓
+  │      ▓▓▓          ▓▓▓
+  │  ▓▓▓▓                ▓▓▓▓▓
+  └──────────────────────────────► Time
+
+        الموارد بتتبع الـ Traffic</pre>
+    <table>
+        <tr>
+            <th style="width:28%">المفهوم</th>
+            <th>الفكرة</th>
+            <th style="width:28%">الاتجاه</th>
+        </tr>
+        <tr>
+            <td class="ltr">Scalability</td>
+            <td>قدرة النظام إنه <b>يكبر</b> لما الحِمل يزيد</td>
+            <td>زيادة (غالبًا مخطّط)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Elasticity</td>
+            <td>الموارد تتظبط <b>تلقائيًا</b> مع الطلب</td>
+            <td>زيادة ونقصان (Automatic)</td>
+        </tr>
+    </table>
+    <div class="box tip"><b class="ib">مثال:</b> موقع e-commerce في <b class="ib">Black Friday</b> — يطلع من 4 سيرفرات
+        لـ 40 الساعة 12 بالليل، وينزل تاني لـ 4 الصبح من غير ما حد يعمل حاجة.</div>
+
+    <h2>3️⃣ High Availability</h2>
+    <pre>              Region: eu-central-1
+   ┌────────────────────┬────────────────────┐
+   │        AZ-a        │        AZ-b        │
+   │   ┌────────────┐   │   ┌────────────┐   │
+   │   │   EC2 #1   │   │   │   EC2 #2   │   │
+   │   └────────────┘   │   └────────────┘   │
+   └──────────┬─────────┴─────────┬──────────┘
+              └──────► LB ◄───────┘
+                       ↑
+                    Users
+
+   لو AZ-a وقعت كلها → AZ-b تكمّل شغل ✅</pre>
+    <div class="box note"><b>القاعدة:</b> الـ HA بتتحقق بـ <b class="ib">Redundancy</b> — نُسخ في أكتر من <b
+            class="ib">Availability Zone</b>.</div>
+
+    <h2>4️⃣ Fault Tolerance</h2>
+    <table>
+        <tr>
+            <th style="width:32%">المفهوم</th>
+            <th>السلوك وقت العطل</th>
+        </tr>
+        <tr>
+            <td class="ltr">High Availability</td>
+            <td>انقطاع بسيط جدًا ثم recovery سريع (ثواني/دقائق)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Fault Tolerance</td>
+            <td>صفر انقطاع — فيه نسخة شغّالة بتستلم فورًا</td>
+        </tr>
+    </table>
+    <pre class="light">Fault Tolerance = Redundancy + No Single Point of Failure
+
+Server A  ──┐
+            ├──► الخدمة شغّالة حتى لو A أو B وقع
+Server B  ──┘</pre>
+
+    <h2>5️⃣ Disaster Recovery</h2>
+    <table>
+        <tr>
+            <th style="width:22%">المقياس</th>
+            <th>المعنى</th>
+            <th style="width:34%">السؤال</th>
+        </tr>
+        <tr>
+            <td class="ltr"><b>RTO</b><br>Recovery Time Objective</td>
+            <td>أقصى وقت مسموح للنظام إنه يفضل واقع</td>
+            <td>«قد إيه نستحمل نفضل Down؟»</td>
+        </tr>
+        <tr>
+            <td class="ltr"><b>RPO</b><br>Recovery Point Objective</td>
+            <td>أقصى كمية بيانات مسموح نخسرها</td>
+            <td>«قد إيه نستحمل نخسر Data؟»</td>
+        </tr>
+    </table>
+    <pre>        آخر Backup            الكارثة              رجعنا شغالين
+             │                    │                      │
+─────────────┼────────────────────┼──────────────────────┼──────►
+             │◄──────  RPO  ─────►│◄─────── RTO ────────►│
+              (بيانات ممكن تضيع)      (وقت التوقف)</pre>
+    <table>
+        <tr>
+            <th style="width:26%">Strategy</th>
+            <th>الفكرة</th>
+            <th style="width:18%">RTO/RPO</th>
+            <th style="width:14%">التكلفة</th>
+        </tr>
+        <tr>
+            <td class="ltr">Backup &amp; Restore</td>
+            <td>Backups بس، وترجّعها وقت الكارثة</td>
+            <td>ساعات</td>
+            <td>الأرخص</td>
+        </tr>
+        <tr>
+            <td class="ltr">Pilot Light</td>
+            <td>نسخة صغيرة شغّالة (Database بس)</td>
+            <td>عشرات الدقايق</td>
+            <td>قليلة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Warm Standby</td>
+            <td>نسخة كاملة شغّالة بحجم أصغر</td>
+            <td>دقايق</td>
+            <td>متوسطة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Multi-Site</td>
+            <td>نسختين شغّالين بكامل الطاقة</td>
+            <td>شبه صفر</td>
+            <td>الأغلى</td>
+        </tr>
+    </table>
+
+    <h2>6️⃣ Global Reach</h2>
+    <pre>                 Your Application
+                        │
+     ┌──────────────────┼──────────────────┐
+     ↓                  ↓                  ↓
+  Region: EU        Region: US        Region: ME
+  (Frankfurt)       (Virginia)        (Bahrain)
+     │                  │                  │
+  Users EU          Users US          Users MENA
+   ~20ms              ~25ms              ~15ms</pre>
+    <div class="box tip"><b class="ib">ليه مهم؟</b> الـ <b class="ib">Latency</b> بتقلّ لما السيرفر يكون قريب من
+        المستخدم. وكمان <b class="ib">Data Residency</b> — بعض الدول بتفرض إن بيانات المواطنين تفضل جوه البلد.</div>
+
+    <h2>7️⃣ Cost Optimization</h2>
+    <ul class="clean">
+        <li>مفيش شراء Hardware مقدّمًا (No upfront CapEx)</li>
+        <li>بتدفع على قد الاستخدام (Pay-as-you-go)</li>
+        <li>تقفل الموارد لما ما تحتاجهاش</li>
+        <li>الـ Managed Services بتقلّل تكلفة الفريق والصيانة</li>
+        <li>الـ Economies of Scale</li>
+    </ul>
+
+    <h2>8️⃣ Agility &amp; Speed</h2>
+    <pre class="light">Traditional                         Cloud
+─────────────────────────────────────────────────────
+طلب شراء سيرفر      → أسابيع        Launch EC2   → دقائق
+تركيب وتجهيز        → أيام          Configure    → دقائق
+تجربة فكرة جديدة    → شهور          Experiment   → نفس اليوم</pre>
+
+    <h2>📋 جدول الملخص</h2>
+    <table>
+        <tr>
+            <th style="width:28%">Benefit</th>
+            <th>الفكرة في سطر</th>
+        </tr>
+        <tr>
+            <td class="ltr">Scalability</td>
+            <td>أقدر أكبر لما الحِمل يزيد (Up أو Out)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Elasticity</td>
+            <td>الموارد تزيد وتقلّ تلقائيًا مع الطلب</td>
+        </tr>
+        <tr>
+            <td class="ltr">High Availability</td>
+            <td>الخدمة متاحة بأقل انقطاع ممكن</td>
+        </tr>
+        <tr>
+            <td class="ltr">Fault Tolerance</td>
+            <td>عطل جزء ما يوقفش الخدمة إطلاقًا</td>
+        </tr>
+        <tr>
+            <td class="ltr">Disaster Recovery</td>
+            <td>خطة الرجوع بعد الكارثة (RTO / RPO)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Global Reach</td>
+            <td>نشر قريب من المستخدم → Latency أقل</td>
+        </tr>
+        <tr>
+            <td class="ltr">Cost Optimization</td>
+            <td>ادفع على قد ما تستخدم</td>
+        </tr>
+        <tr>
+            <td class="ltr">Agility</td>
+            <td>من شهور لدقائق</td>
+        </tr>
+    </table>
+
+    <h2>📝 Q&amp;A</h2>
+    <div class="q"><b>Q1: Scalability vs Elasticity?</b><br>Scalability = <span dir="ltr">the ability to grow</span>.
+        Elasticity = <span dir="ltr">automatic scale in/out based on demand</span>.</div>
+    <div class="q"><b>Q2: HA vs Fault Tolerance?</b><br>الـ HA بتقلّل الـ Downtime، الـ FT معناها <b class="ib">صفر
+            Downtime</b> عند عطل مكوّن.</div>
+    <div class="q"><b>Q3: RTO vs RPO؟</b><br><code>RTO</code> = قد إيه هفضل واقع. <code>RPO</code> = قد إيه هخسر بيانات.
+    </div>
+    <div class="q"><b>Q4: إزاي أعمل App جاهز للـ Horizontal Scaling؟</b><br>خليه <b class="ib">Stateless</b> → Sessions
+        في Redis · Files في S3 · Database خارجية.</div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">6 · Cloud Pricing &amp; Cost Concepts 💰</h1>
+    <div class="box warn"><b class="ib">ملاحظة:</b> الأرقام هنا للتوضيح فقط — الأسعار الحقيقية بتختلف حسب الـ Region
+        والخدمة وبتتغيّر باستمرار.</div>
+
+    <h2>1️⃣ Pay-as-you-go</h2>
+    <pre>Traditional                          Cloud
+──────────────────────────────────────────────────────────
+تشتري سيرفر بـ 100,000            تشغّل EC2 بالساعة
+   ↓                                  ↓
+تدفع كله مقدّمًا                    تدفع على الساعات اللي اشتغلتها
+   ↓                                  ↓
+تستخدمه 20% من وقته               تقفله لما ما تحتاجهوش → 0 تكلفة</pre>
+    <div class="box tip">مثال: بيئة <b class="ib">Dev/Test</b> شغّالة 8 ساعات × 5 أيام = <b class="ib">40 ساعة</b> بدل
+        168 → توفير <b class="ib">~76%</b>.</div>
+
+    <h2>2️⃣ CapEx vs OpEx</h2>
+    <table>
+        <tr>
+            <th style="width:22%">النوع</th>
+            <th style="width:39%">CapEx</th>
+            <th>OpEx</th>
+        </tr>
+        <tr>
+            <td>المعنى</td>
+            <td>تشتري أصل وتملكه</td>
+            <td>تدفع مقابل استخدام</td>
+        </tr>
+        <tr>
+            <td>الدفع</td>
+            <td>مبلغ كبير مقدّمًا</td>
+            <td>مبالغ صغيرة مستمرة</td>
+        </tr>
+        <tr>
+            <td>مثال</td>
+            <td>سيرفرات + Data Center + رخص</td>
+            <td>فاتورة AWS الشهرية</td>
+        </tr>
+        <tr>
+            <td>المخاطرة</td>
+            <td>عالية</td>
+            <td>منخفضة</td>
+        </tr>
+        <tr>
+            <td>الاتجاه</td>
+            <td>Traditional Data Center</td>
+            <td>Cloud ✅</td>
+        </tr>
+    </table>
+    <div class="box note"><b class="ib">جملة الامتحان:</b> <span dir="ltr">Cloud shifts your spending from <b>CapEx</b>
+            to <b>OpEx</b>.</span></div>
+
+    <h2>3️⃣ Fixed vs Variable Costs</h2>
+    <pre>Fixed Cost                          Variable Cost
+──────────────────────────────────────────────────────────
+Cost                                Cost
+  ▲                                   ▲
+  │ ────────────────                  │            ╱
+  │                                   │        ╱
+  │                                   │    ╱
+  │                                   │╱
+  └──────────────► Usage              └──────────────► Usage
+
+ثابتة مهما استخدمت                    بتزيد وتقلّ مع الاستخدام</pre>
+
+    <h2>4️⃣ ليه الـ Cloud بيقلّل التكلفة المبدئية؟</h2>
+    <ul class="clean">
+        <li>مفيش شراء Hardware ولا Data Center</li>
+        <li>مفيش <b class="ib">Over-provisioning</b></li>
+        <li>مفيش كهربا وتبريد وأمن وصيانة</li>
+        <li><b class="ib">Economies of Scale</b></li>
+        <li>Managed Services بتقلّل ساعات الفريق</li>
+    </ul>
+    <pre class="light">Over-provisioning (الطريقة القديمة)
+  Capacity ────────────────────────  ← فلوس ضايعة
+  Demand      ╱╲    ╱╲
+
+Cloud (Elastic)
+  Capacity  ╱╲    ╱╲       ← الموارد بتتبع الطلب
+  Demand    ╱╲    ╱╲</pre>
+
+    <h2>5️⃣ إنت بتدفع على إيه في AWS؟</h2>
+    <table>
+        <tr>
+            <th style="width:24%">البند</th>
+            <th>التفاصيل</th>
+        </tr>
+        <tr>
+            <td class="ltr">Compute</td>
+            <td>وقت التشغيل (EC2 بالساعة · Lambda بالطلبات والزمن)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Storage</td>
+            <td>المساحة (S3 بالـ GB/شهر · EBS بالـ GB المخصّصة)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Data Transfer</td>
+            <td>البيانات <b>الخارجة</b> للإنترنت — الداخلة غالبًا مجانية</td>
+        </tr>
+    </table>
+    <pre>Internet ──── IN  (Inbound)  ────► AWS      →  غالبًا مجاني ✅
+Internet ◄─── OUT (Outbound) ───── AWS      →  بتدفع 💰
+
+AZ-a ◄──────────────────────────► AZ-b      →  فيه تكلفة نقل ⚠</pre>
+    <div class="box danger"><b class="ib">فخ شائع:</b> فاتورة <b class="ib">Data Transfer Out</b> — خصوصًا لو بتخدم
+        صور/فيديوهات من EC2 بدل <b class="ib">S3 + CloudFront</b>.</div>
+
+    <h2>6️⃣ EC2 Purchase Options</h2>
+    <table>
+        <tr>
+            <th style="width:22%">النوع</th>
+            <th>الفكرة</th>
+            <th style="width:18%">التوفير</th>
+            <th style="width:22%">مناسب لـ</th>
+        </tr>
+        <tr>
+            <td class="ltr">On-Demand</td>
+            <td>ادفع بالساعة بدون التزام</td>
+            <td>—</td>
+            <td>أحمال غير متوقعة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Savings Plans</td>
+            <td>تلتزم بمبلغ $/hour لـ 1 أو 3 سنين</td>
+            <td>~72%</td>
+            <td>أحمال ثابتة بمرونة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Reserved Instances</td>
+            <td>تحجز Instance محدّد</td>
+            <td>~72%</td>
+            <td>Database / Backend ثابت</td>
+        </tr>
+        <tr>
+            <td class="ltr">Spot Instances</td>
+            <td>سعة فاضية بسعر رخيص جدًا</td>
+            <td>~90%</td>
+            <td>Batch · CI/CD</td>
+        </tr>
+        <tr>
+            <td class="ltr">Dedicated Host</td>
+            <td>سيرفر فيزيائي ليك وحدك</td>
+            <td>الأغلى</td>
+            <td>Compliance</td>
+        </tr>
+    </table>
+    <div class="box warn"><b class="ib">Spot تحذير:</b> AWS ممكن تسحبها في أي وقت (بإشعار ~دقيقتين) — ما تستخدمهاش لحاجة
+        <b class="ib">Stateful</b>.</div>
+
+    <h2>7️⃣ AWS Free Tier</h2>
+    <table>
+        <tr>
+            <th style="width:28%">النوع</th>
+            <th>المعنى</th>
+        </tr>
+        <tr>
+            <td class="ltr">12-Months Free</td>
+            <td>مجاني لأول سنة (بحدود معيّنة)</td>
+        </tr>
+        <tr>
+            <td class="ltr">Always Free</td>
+            <td>مجاني دائمًا في حدود معيّنة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Trials</td>
+            <td>تجربة قصيرة لخدمة معيّنة</td>
+        </tr>
+    </table>
+    <div class="box danger"><b class="ib">أول حاجة في حسابك الجديد:</b> فعّل <b class="ib">AWS Budgets</b> بتنبيه على
+        مبلغ صغير ($5) عشان ما تتفاجئش.</div>
+
+    <h2>8️⃣ أدوات إدارة التكلفة</h2>
+    <table>
+        <tr>
+            <th style="width:30%">الأداة</th>
+            <th>بتعمل إيه</th>
+        </tr>
+        <tr>
+            <td class="ltr">Pricing Calculator</td>
+            <td>تقدير التكلفة <b>قبل</b> ما تبني</td>
+        </tr>
+        <tr>
+            <td class="ltr">Billing Dashboard</td>
+            <td>نظرة عامة على الفاتورة الحالية</td>
+        </tr>
+        <tr>
+            <td class="ltr">Cost Explorer</td>
+            <td>تحليل الإنفاق + توقّعات</td>
+        </tr>
+        <tr>
+            <td class="ltr">AWS Budgets</td>
+            <td>ميزانية + تنبيهات</td>
+        </tr>
+        <tr>
+            <td class="ltr">Cost Allocation Tags</td>
+            <td>توزيع التكلفة على المشاريع</td>
+        </tr>
+        <tr>
+            <td class="ltr">Cost &amp; Usage Report</td>
+            <td>أدق تقرير تفصيلي</td>
+        </tr>
+        <tr>
+            <td class="ltr">Trusted Advisor</td>
+            <td>توصيات توفير وأمان وأداء</td>
+        </tr>
+        <tr>
+            <td class="ltr">Compute Optimizer</td>
+            <td>Right-sizing</td>
+        </tr>
+    </table>
+
+    <h2>9️⃣ TCO — Total Cost of Ownership</h2>
+    <pre>On-Premises TCO                     Cloud TCO
+──────────────────────────────────────────────────
+Hardware                            Usage fees
+Data Center / Rent                  Support plan
+Power + Cooling                     Data transfer
+Networking
+IT Staff
+Maintenance + Upgrades
+Backup + DR
+Security</pre>
+
+    <h2>🔟 نصايح لتقليل الفاتورة</h2>
+    <ul class="clean">
+        <li><b class="ib">Right-sizing</b> — ما تشغّلش <code>xlarge</code> وأنت مستخدم 10%</li>
+        <li>اقفل بيئات Dev/Test بالليل</li>
+        <li>استخدم <b class="ib">Auto Scaling</b></li>
+        <li><b class="ib">S3 Lifecycle</b> للملفات القديمة</li>
+        <li>احذف <b class="ib">Unattached EBS</b> و Elastic IPs غير المستخدمة</li>
+        <li><b class="ib">CloudFront</b> قدام الـ Static Content</li>
+        <li><b class="ib">Savings Plans</b> للثابت و <b class="ib">Spot</b> للـ Batch</li>
+        <li>فعّل <b class="ib">Tags</b> من أول يوم</li>
+    </ul>
+
+    <h2>📝 Q&amp;A</h2>
+    <div class="q"><b>Q1: CapEx vs OpEx؟</b><br>CapEx = شراء أصول مقدّمًا. OpEx = دفع مقابل استخدام. الـ Cloud بيحوّلك
+        من CapEx لـ OpEx.</div>
+    <div class="q"><b>Q2: الـ 3 عناصر اللي بتدفع عليها؟</b><br><span dir="ltr">Compute · Storage · Data Transfer
+            (Out)</span></div>
+    <div class="q"><b>Q3: امتى Spot؟</b><br>Batch Jobs · Data Processing · CI/CD Runners · Rendering. مش للـ Databases.
+    </div>
+    <div class="q"><b>Q4: أداة التحذير قبل تخطي الميزانية؟</b><br><code>AWS Budgets</code> — وللتحليل
+        <code>Cost Explorer</code>.</div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">7 · Shared Responsibility Model 🔐</h1>
+    <div class="box warn"><b>مهمة جدًا قبل AWS</b> — المسؤوليات اللي عليك واللي على الـ Cloud.</div>
+
+    <pre>                    AWS
+                     │
+          Security OF the Cloud
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+Physical Infrastructure    Cloud Infrastructure
+
+
+                  CUSTOMER
+                     │
+          Security IN the Cloud
+                     │
+        ┌────────────┼────────────┐
+        ↓            ↓            ↓
+      Data      Application      IAM
+                     │
+                     ↓
+                    OS*</pre>
+    <div class="box note">المسؤوليات بتختلف حسب نوع الـ <b class="ib">AWS Service</b>.</div>
+
+    <h2>🏢 AWS — Security OF the Cloud</h2>
+    <pre>AWS Data Center
+│
+├── Buildings
+├── Physical Servers
+├── Physical Storage
+├── Physical Networking
+├── Power
+├── Cooling
+└── Physical Security</pre>
+
+    <h2>👨‍💻 Customer — Security IN the Cloud</h2>
+    <pre>Your Application
+Your Data
+Your Credentials
+Your IAM Configuration
+Your Security Groups
+Your OS Configuration</pre>
+
+    <h3>1️⃣ Physical Infrastructure</h3>
+    <table>
+        <tr>
+            <th style="width:50%">AWS</th>
+            <th>أنت</th>
+        </tr>
+        <tr>
+            <td class="yes">✅ مسؤولة</td>
+            <td class="no">❌ غير مسؤول</td>
+        </tr>
+    </table>
+
+    <h3>2️⃣ Operating System</h3>
+    <pre class="light">EC2
+ ↓
+Ubuntu
+ ↓
+Your Application</pre>
+    <p><b class="ib">أنت</b> مسؤول عن: Ubuntu · Patches · Updates · Configuration · Installed Software</p>
+
+    <h3>3️⃣ Network</h3>
+    <table>
+        <tr>
+            <th style="width:50%">AWS مسؤولة عن</th>
+            <th>أنت مسؤول عن الـ Configuration</th>
+        </tr>
+        <tr>
+            <td>Physical Network<br>AWS Infrastructure</td>
+            <td>VPC · Subnets · Security Groups · NACLs · Routing</td>
+        </tr>
+    </table>
+    <div class="box danger"><b>مثال:</b> Security Group يسمح بـ <code>0.0.0.0/0</code> على <code>Port 22</code> = فتحت
+        SSH للعالم — دي <b class="ib">مش</b> مشكلة AWS.</div>
+
+    <h3>4️⃣ Data 🔐</h3>
+    <ul class="clean">
+        <li>Access Control</li>
+        <li>Encryption Configuration</li>
+        <li>Data Handling</li>
+        <li>Backups / Configuration</li>
+        <li>عدم تسريب الـ Credentials</li>
+    </ul>
+    <div class="box warn">AWS مش هتقرّر إن <b class="ib">User Ahmed</b> مسموح له يشوف <b class="ib">Customer #123</b> —
+        دي <b class="ib">Business Responsibility</b> بتاعتك.</div>
+
+    <h3>5️⃣ IAM</h3>
+    <pre>Developer      →  Can deploy application
+Support        →  Can view logs
+Database Admin →  Can manage database</pre>
+    <pre class="light">Who?
+ ↓
+Can do what?
+ ↓
+On which resource?
+
+User A → Read → S3 Bucket</pre>
+
+    <h3>6️⃣ Application</h3>
+    <div class="box danger">لو عندك Django API فيها <b class="ib">SQL Injection</b> أو <b class="ib">Broken
+            Authentication</b> أو <b class="ib">IDOR</b> — AWS مش هتصلّحها لك.</div>
+
+    <h2>🧠 الخلاصة — لو عندك EC2</h2>
+    <pre>                  AWS
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+Physical Infrastructure   Virtualization
+        │                     │
+        └──────────┬──────────┘
+                   ↓
+              EC2 Instance
+                   ↓
+             ┌───────────┐
+             │    YOU    │
+             ├───────────┤
+             │ OS        │
+             │ Runtime   │
+             │ App       │
+             │ Data      │
+             │ IAM       │
+             │ Firewall  │
+             └───────────┘</pre>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">8 · Basic Cloud Networking 🌐</h1>
+    <p><span class="chip">IP</span><span class="chip">DNS</span><span class="chip">Port</span><span
+            class="chip">HTTP/HTTPS</span><span class="chip">Public/Private</span><span class="chip">Load
+            Balancer</span><span class="chip">VPC</span></p>
+
+    <h2>1️⃣ IP Address</h2>
+    <pre>192.168.1.10
+      ↓
+   Network
+      ↓
+192.168.1.20</pre>
+    <pre class="light">Private IP → داخل Network خاصة
+
+Internet
+   ↓
+Public IP
+   ↓
+Server</pre>
+
+    <h2>2️⃣ DNS</h2>
+    <p>تحويل <b class="ib">Domain Name</b> إلى <b class="ib">IP Address</b>.</p>
+    <pre>google.com
+     ↓
+    DNS
+     ↓
+142.xxx.xxx.xxx</pre>
+
+    <h2>3️⃣ Ports 🚪</h2>
+    <div class="box note">الـ <b class="ib">IP</b> بيحدّد: أي جهاز؟ | الـ <b class="ib">Port</b> بيحدّد: أي Service؟
+    </div>
+    <pre>Server
+IP = 10.0.0.10
+
+Port 80   → HTTP
+Port 443  → HTTPS
+Port 22   → SSH
+Port 5432 → PostgreSQL
+Port 6379 → Redis</pre>
+    <p><code>10.0.0.10:443</code> = روح للجهاز واتصل بالـ Service اللي بتسمع على Port 443.</p>
+
+    <h2>4️⃣ HTTP / HTTPS</h2>
+    <pre>Client
+   ↓
+ HTTPS
+   ↓
+api.example.com
+   ↓
+ Server</pre>
+    <table>
+        <tr>
+            <th style="width:50%">Protocol</th>
+            <th>Default Port</th>
+        </tr>
+        <tr>
+            <td class="ltr">HTTP</td>
+            <td class="ltr">80</td>
+        </tr>
+        <tr>
+            <td class="ltr">HTTPS</td>
+            <td class="ltr">443</td>
+        </tr>
+    </table>
+    <div class="box tip"><b>HTTPS = HTTP + TLS Encryption</b></div>
+
+    <h2>5️⃣ Load Balancer ⚖️</h2>
+    <pre>             Users
+                ↓
+          Load Balancer
+          ↙     ↓     ↘
+       Server  Server  Server</pre>
+    <pre class="light">Request 1 → Server A
+Request 2 → Server B
+Request 3 → Server C
+Request 4 → Server A</pre>
+    <p><b>بيساعد في:</b> Scalability · Availability · توزيع الـ Traffic</p>
+
+    <h2>6️⃣ Public vs Private Network</h2>
+    <pre>                    Internet
+                       │
+                       ↓
+              Public Load Balancer
+                       │
+              ┌────────┴────────┐
+              ↓                 ↓
+          Backend A         Backend B
+          Private IP        Private IP
+              │                 │
+              └────────┬────────┘
+                       ↓
+                    Database
+                    (Private)</pre>
+    <div class="box tip">المستخدمين يوصلوا للـ Load Balancer بس — مش للـ Backend أو Database. تصميم <b
+            class="ib">أأمن</b>.</div>
+
+    <h2>7️⃣ VPC — Virtual Private Cloud</h2>
+    <pre>AWS
+│
+└── Your VPC
+     │
+     ├── Subnet
+     ├── Subnet
+     ├── Route Table
+     ├── Security Groups
+     └── Network ACLs</pre>
+
+    <h2>🔥 مثال كامل</h2>
+    <table>
+        <tr>
+            <th style="width:30%">Step</th>
+            <th>اللي بيحصل</th>
+        </tr>
+        <tr>
+            <td><b>1 — DNS</b></td>
+            <td class="ltr">api.tayseer.com → DNS → Public IP / Load Balancer</td>
+        </tr>
+        <tr>
+            <td><b>2 — HTTPS</b></td>
+            <td class="ltr">Request uses HTTPS on Port 443</td>
+        </tr>
+        <tr>
+            <td><b>3 — Load Balancer</b></td>
+            <td class="ltr">Internet → Load Balancer</td>
+        </tr>
+        <tr>
+            <td><b>4 — Backend</b></td>
+            <td class="ltr">Load Balancer → Backend 1 / Backend 2</td>
+        </tr>
+        <tr>
+            <td><b>5 — Database</b></td>
+            <td class="ltr">Backend → Private Network → Database</td>
+        </tr>
+    </table>
+
+    <pre>                     INTERNET
+                        │
+                        ↓
+                   DNS / Domain
+                        │
+                        ↓
+                    HTTPS :443
+                        │
+                        ↓
+              ┌─────────────────┐
+              │  Load Balancer  │
+              └────────┬────────┘
+                       │
+             ┌─────────┴─────────┐
+             ↓                   ↓
+      Backend Server A    Backend Server B
+      Private IP          Private IP
+             │                   │
+             └─────────┬─────────┘
+                       ↓
+                Private Database</pre>
+
+    <pre class="light">Domain → DNS → IP → Port → Protocol → Load Balancer → Server → Database</pre>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">9 · Availability &amp; Reliability</h1>
+    <div class="box note">كل قرارات الـ Architecture في AWS بترجع لسؤال: <b class="ib">لو الحاجة دي وقعت… هيحصل إيه؟</b>
+    </div>
+
+    <h2>1️⃣ Availability</h2>
+    <pre class="light">                  Uptime
+Availability = ───────────────────  ×  100
+                Uptime + Downtime</pre>
+    <table>
+        <tr>
+            <th style="width:22%">Availability</th>
+            <th style="width:20%">الاسم</th>
+            <th>Downtime / سنة</th>
+            <th>Downtime / شهر</th>
+        </tr>
+        <tr>
+            <td class="ltr">99%</td>
+            <td>Two nines</td>
+            <td class="ltr">~3.65 days</td>
+            <td class="ltr">~7.3 hours</td>
+        </tr>
+        <tr>
+            <td class="ltr">99.9%</td>
+            <td>Three nines</td>
+            <td class="ltr">~8.8 hours</td>
+            <td class="ltr">~43.8 minutes</td>
+        </tr>
+        <tr>
+            <td class="ltr">99.95%</td>
+            <td>—</td>
+            <td class="ltr">~4.4 hours</td>
+            <td class="ltr">~21.9 minutes</td>
+        </tr>
+        <tr>
+            <td class="ltr">99.99%</td>
+            <td>Four nines</td>
+            <td class="ltr">~52.6 minutes</td>
+            <td class="ltr">~4.4 minutes</td>
+        </tr>
+        <tr>
+            <td class="ltr">99.999%</td>
+            <td>Five nines</td>
+            <td class="ltr">~5.3 minutes</td>
+            <td class="ltr">~26 seconds</td>
+        </tr>
+    </table>
+    <div class="box warn">كل «تسعة» زيادة بتزوّد التكلفة والتعقيد بشكل كبير. موقع داخلي للموظفين مش زي نظام دفع بنكي.
+    </div>
+
+    <h2>2️⃣ Reliability</h2>
+    <table>
+        <tr>
+            <th style="width:24%">المقياس</th>
+            <th>المعنى</th>
+        </tr>
+        <tr>
+            <td class="ltr"><b>MTBF</b><br>Mean Time Between Failures</td>
+            <td>متوسط الوقت بين الأعطال — كل ما زاد أحسن ⬆</td>
+        </tr>
+        <tr>
+            <td class="ltr"><b>MTTR</b><br>Mean Time To Repair</td>
+            <td>متوسط وقت الإصلاح — كل ما قلّ أحسن ⬇</td>
+        </tr>
+    </table>
+    <pre>Failure          Failure          Failure
+   │                │                │
+───┴────────────────┴────────────────┴──────► Time
+   │◄──── MTBF ────►│
+   │◄─►│
+    MTTR
+
+Availability = MTBF / (MTBF + MTTR)</pre>
+
+    <h2>3️⃣ الفرق بين المصطلحات</h2>
+    <table>
+        <tr>
+            <th style="width:24%">المصطلح</th>
+            <th>السؤال</th>
+            <th style="width:26%">مثال</th>
+        </tr>
+        <tr>
+            <td class="ltr">Availability</td>
+            <td>هل الخدمة شغّالة دلوقتي؟</td>
+            <td>الموقع بيفتح ولا لأ</td>
+        </tr>
+        <tr>
+            <td class="ltr">Reliability</td>
+            <td>هل بتشتغل صح باستمرار؟</td>
+            <td>الـ API بيرجّع نتيجة صحيحة</td>
+        </tr>
+        <tr>
+            <td class="ltr">Durability</td>
+            <td>هل بياناتي مش هتضيع؟</td>
+            <td>S3 durability عالية جدًا</td>
+        </tr>
+        <tr>
+            <td class="ltr">Scalability</td>
+            <td>أقدر أكبر لما الحِمل يزيد؟</td>
+            <td>أزوّد سيرفرات</td>
+        </tr>
+        <tr>
+            <td class="ltr">Fault Tolerance</td>
+            <td>الخدمة تكمّل لو جزء وقع؟</td>
+            <td>سيرفر وقع والباقي شغّال</td>
+        </tr>
+    </table>
+
+    <h2>4️⃣ Single Point of Failure — SPOF</h2>
+    <pre>❌ فيه SPOF                        ✅ من غير SPOF
+
+     Users                              Users
+       ↓                                  ↓
+   ┌────────┐                      ┌──────────────┐
+   │  ONE   │                      │ Load Balancer│
+   │ Server │  ← لو وقع            └──┬────────┬──┘
+   └────┬───┘     كله وقع             ↓        ↓
+        ↓                          Server1  Server2
+   ┌────────┐                          ↓        ↓
+   │  ONE   │                      ┌──────────────┐
+   │   DB   │                      │ DB Primary   │
+   └────────┘                      │      ↕       │
+                                   │ DB Standby   │
+                                   └──────────────┘</pre>
+
+    <h2>5️⃣ Redundancy</h2>
+    <table>
+        <tr>
+            <th style="width:26%">النمط</th>
+            <th>الفكرة</th>
+            <th style="width:22%">التكلفة / السرعة</th>
+        </tr>
+        <tr>
+            <td class="ltr">Active - Active</td>
+            <td>كل النسخ شغّالة وبتستقبل Traffic</td>
+            <td>أغلى · تحويل فوري</td>
+        </tr>
+        <tr>
+            <td class="ltr">Active - Passive</td>
+            <td>نسخة شغّالة وواحدة Standby</td>
+            <td>أرخص · فيه Failover time</td>
+        </tr>
+    </table>
+    <pre class="light">مكوّنات على التوالي (Series)
+  99.9%  ×  99.9%  =  99.8%        ← الإتاحة بتقلّ ⬇
+
+مكوّنات متوازية (Redundant)
+  1 - (1 - 0.999)²  =  99.9999%    ← الإتاحة بتزيد ⬆</pre>
+
+    <h2>6️⃣ إزاي AWS بتوفّر ده؟</h2>
+    <pre>                        AWS Global Infrastructure
+                                  │
+        ┌─────────────────────────┼─────────────────────────┐
+        ↓                         ↓                         ↓
+     Region                Availability Zone           Edge Location
+  (منطقة جغرافية)        (Data Center مستقل)          (نقطة قريبة للمستخدم)
+        │                         │                         │
+   عدة AZs                  Power + Network              CloudFront
+                             مستقلين                       Caching</pre>
+    <table>
+        <tr>
+            <th style="width:30%">الهدف</th>
+            <th>الخدمة في AWS</th>
+        </tr>
+        <tr>
+            <td>High Availability</td>
+            <td class="ltr">Multi-AZ Deployment · Elastic Load Balancer</td>
+        </tr>
+        <tr>
+            <td>Elasticity / Scalability</td>
+            <td class="ltr">Auto Scaling Group</td>
+        </tr>
+        <tr>
+            <td>Fault Tolerance</td>
+            <td class="ltr">Multi-AZ / Multi-Region · Health Checks</td>
+        </tr>
+        <tr>
+            <td>Traffic Routing &amp; Failover</td>
+            <td class="ltr">Route 53</td>
+        </tr>
+        <tr>
+            <td>Durability</td>
+            <td class="ltr">S3 · EBS Snapshots</td>
+        </tr>
+        <tr>
+            <td>Disaster Recovery</td>
+            <td class="ltr">Backups · Cross-Region Replication</td>
+        </tr>
+        <tr>
+            <td>Low Latency Globally</td>
+            <td class="ltr">CloudFront Edge Locations</td>
+        </tr>
+    </table>
+
+    <h2>7️⃣ Single AZ vs Multi-AZ</h2>
+    <div class="two">
+        <div>
+            <h3 style="color:var(--red)">❌ Single AZ</h3>
+            <pre class="light">   Region
+   ┌──────────────┐
+   │    AZ-a      │
+   │  ┌────────┐  │
+   │  │  EC2   │  │
+   │  └────────┘  │
+   │  ┌────────┐  │
+   │  │   DB   │  │
+   │  └────────┘  │
+   └──────────────┘
+
+AZ تقع → كل حاجة تقع</pre>
+        </div>
+        <div>
+            <h3 style="color:var(--green)">✅ Multi-AZ</h3>
+            <pre class="light">        Region
+ ┌──────────┬──────────┐
+ │   AZ-a   │   AZ-b   │
+ │ ┌──────┐ │ ┌──────┐ │
+ │ │ EC2  │ │ │ EC2  │ │
+ │ └──────┘ │ └──────┘ │
+ │ ┌──────┐ │ ┌──────┐ │
+ │ │  DB  │◄┼►│Stand │ │
+ │ │Primary│ │ │ by   │ │
+ │ └──────┘ │ └──────┘ │
+ └──────────┴──────────┘
+
+AZ تقع → الخدمة مستمرة</pre>
+        </div>
+    </div>
+
+    <h2>8️⃣ SLA — Service Level Agreement</h2>
+    <pre class="light">SLA  → الالتزام التعاقدي   (مثال: 99.99%)
+SLO  → الهدف الداخلي للفريق (مثال: 99.95%)
+SLI  → المؤشر اللي بتقيسه   (مثال: نسبة الـ requests الناجحة)</pre>
+    <div class="box warn">الـ SLA بتاع AWS بيغطّي <b class="ib">خدمتهم</b> — مش تصميمك أنت.</div>
+
+    <h2>🧠 الصورة الكاملة</h2>
+    <pre>                   Reliable System
+                          │
+        ┌─────────────────┼─────────────────┐
+        ↓                 ↓                 ↓
+   Redundancy      No Single Point     Monitoring
+        │            of Failure         & Alerts
+        ↓                 ↓                 ↓
+   Multi-AZ         Load Balancer      CloudWatch
+   Replicas         Auto Scaling       Health Checks
+        │                 │                 │
+        └─────────────────┼─────────────────┘
+                          ↓
+              High Availability + Fault Tolerance
+                          ↓
+                   Backup + DR Plan
+                          ↓
+                   RTO / RPO محقّقين ✅</pre>
+
+    <h2>📝 Q&amp;A</h2>
+    <div class="q"><b>Q1: يعني إيه 99.99%؟</b><br>Downtime مسموح ~<b class="ib">52 دقيقة في السنة</b>.</div>
+    <div class="q"><b>Q2: Availability vs Reliability vs Durability؟</b><br>Availability = شغّالة · Reliability = بتشتغل
+        صح · Durability = البيانات مش هتضيع.</div>
+    <div class="q"><b>Q3: إيه الـ SPOF؟</b><br>مكوّن وحيد لو وقع النظام كله يقع — الحل: <b class="ib">Redundancy +
+            Multi-AZ + Load Balancer</b>.</div>
+    <div class="q"><b>Q4: Multi-AZ = Disaster Recovery؟</b><br>لأ. الـ Multi-AZ بيحميك من عطل <b class="ib">AZ</b>.
+        الكوارث على مستوى <b class="ib">Region</b> محتاجة <b class="ib">Cross-Region Replication</b>.</div>
+    <div class="q"><b>Q5: ليه مش كل نظام محتاج Five Nines؟</b><br>كل تسعة زيادة بتضاعف التكلفة — القرار حسب <b
+            class="ib">تأثير الـ Downtime على الشغل</b>.</div>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">10 · AWS Track — IAM</h1>
+    <pre>Cloud Fundamentals
+      │
+      ├── IAM          ← أنت هنا
+      │
+      ├── EC2
+      │
+      ├── EC2 Storage
+      │
+      └── S3</pre>
+
+    <div class="box warn">ده أول حاجة يُنصح تخلّصها بالكامل <b class="ib">قبل EC2</b>.</div>
+    <pre>IAM
+│
+├── Users
+├── Groups
+├── Policies
+├── Roles
+├── MFA
+├── Access Keys
+├── CLI
+└── Permissions</pre>
+
+    <h3>🧠 Mental Model</h3>
+    <pre>                 IAM
+                  │
+       ┌──────────┼──────────┐
+       ↓          ↓          ↓
+     User       Group       Role
+       │          │          │
+       └──────────┼──────────┘
+                  ↓
+               Policy
+                  ↓
+            Permissions
+                  ↓
+           AWS Resources</pre>
+    <pre class="light">Ahmed
+  ↓
+IAM User
+  ↓
+Developer Group
+  ↓
+Policy
+  ↓
+✔ Can read S3
+✔ Can deploy EC2
+✘ Cannot delete production</pre>
+
+    <h2>🧠 IAM عنده سؤالين</h2>
+    <div class="two">
+        <div>
+            <h3>1. Authentication</h3>
+            <pre class="light">Who are you?
+    ↓
+  Ahmed</pre>
+        </div>
+        <div>
+            <h3>2. Authorization</h3>
+            <pre class="light">What can Ahmed do?
+       ↓
+   Read S3
+   Create EC2
+   Delete EC2 ...</pre>
+        </div>
+    </div>
+
+    <h2>👤 1. IAM User</h2>
+    <pre>IAM
+│
+├── Ahmed
+├── Mohamed
+└── Sara</pre>
+    <pre class="light">Ahmed → IAM User → Permissions → Can access EC2</pre>
+
+    <h2>👥 2. IAM Group</h2>
+    <pre>Developers
+│
+├── Ahmed
+├── Mohamed
+├── Ali
+└── Omar
+
+        ↓ Permissions
+┌───────────────┐
+│ EC2:  Read    │
+│ S3:   Read    │
+│ Logs: Read    │
+└───────────────┘</pre>
+    <pre class="light">Ahmed ───┐
+Ali   ───┼──→ Developers ──→ Permissions
+Omar  ───┘</pre>
+    <div class="box danger"><b>نقطة مهمة:</b> الـ Group يحتوي <b class="ib">Users</b> — لكن <b class="ib">لا يحتوي
+            Groups</b>.</div>
+
+    <h2>📜 3. IAM Policy</h2>
+    <pre>Policy
+│
+├── Effect
+├── Action
+└── Resource
+
+مثال:
+Effect:   Allow
+Action:   s3:GetObject
+Resource: my-bucket/*</pre>
+
+    <h2>🧩 الثلاثة مع بعض</h2>
+    <pre>                IAM
+                 │
+        ┌────────┴────────┐
+        ↓                 ↓
+      Users             Groups
+        │                 │
+        │            ┌────┴────┐
+        │            ↓         ↓
+        └────────→ Permissions
+                       ↑
+                    Policies
+
+Ahmed → Developers Group → Policy → Allow → S3 Read</pre>
+
+    <h2>🎯 مثال عملي</h2>
+    <pre>Backend-Developers        Frontend-Developers       DevOps
+│                         │                         │
+├── Ahmed                 ├── Sara                  ├── Mohamed
+├── Ali                   └── Mona                  └── Khaled
+└── Omar</pre>
+    <table>
+        <tr>
+            <th style="width:34%">Group</th>
+            <th>Allowed</th>
+        </tr>
+        <tr>
+            <td class="ltr">Backend Developers</td>
+            <td class="ltr">EC2 Read · S3 Read · CloudWatch Read</td>
+        </tr>
+        <tr>
+            <td class="ltr">Frontend Developers</td>
+            <td class="ltr">S3 Read · S3 Upload · CloudFront Read</td>
+        </tr>
+        <tr>
+            <td class="ltr">DevOps</td>
+            <td class="ltr">EC2 Full · S3 Full · CloudWatch · IAM</td>
+        </tr>
+    </table>
+
+    <h2>🔥 Authentication vs Authorization</h2>
+    <pre>Username + Password + MFA
+          ↓
+    Authentication
+          ↓
+ "Ahmed is authenticated"
+
+Ahmed
+  ↓
+Can he delete this S3 bucket?
+  ↓
+IAM Policy
+  ↓
+Allow / Deny   →  Authorization</pre>
+
+    <h2>⚠️ هل User = Employee؟</h2>
+    <pre class="light">EC2
+ ↓
+IAM Role
+ ↓
+Access S3</pre>
+    <div class="box danger">ماتحفظش: «كل Application لازم يكون عنده IAM User» ❌ <b class="ib">غلط.</b></div>
+
+    <h2>🧩 مثال قريب من شغلك</h2>
+    <div class="two">
+        <div>
+            <h3 style="color:var(--red)">حل سيّئ ❌</h3>
+            <pre class="light">Django
+ ↓
+Access Key
+ ↓
+IAM User
+ ↓
+S3</pre>
+        </div>
+        <div>
+            <h3 style="color:var(--green)">الأفضل ✅</h3>
+            <pre class="light">Django
+ ↓
+EC2
+ ↓
+IAM Role
+ ↓
+S3</pre>
+        </div>
+    </div>
+
+    <h2>🧠 الخلاصة</h2>
+    <table>
+        <tr>
+            <th style="width:22%">العنصر</th>
+            <th>السؤال</th>
+            <th style="width:32%">مثال</th>
+        </tr>
+        <tr>
+            <td>👤 <b>User</b></td>
+            <td>مين الشخص / الـ Identity؟</td>
+            <td class="ltr">Ahmed</td>
+        </tr>
+        <tr>
+            <td>👥 <b>Group</b></td>
+            <td>مجموعة Users بنفس الـ Permissions</td>
+            <td class="ltr">Developers<br>├── Ahmed<br>├── Ali<br>└── Omar</td>
+        </tr>
+        <tr>
+            <td>📜 <b>Policy</b></td>
+            <td>إيه المسموح والممنوع؟</td>
+            <td class="ltr">Allow → s3:GetObject</td>
+        </tr>
+    </table>
+    <pre>                 AWS IAM
+                    │
+              ┌─────┴─────┐
+              ↓           ↓
+            User        Group
+             │            │
+             │       ┌────┼────┐
+             │       ↓    ↓    ↓
+             └──────→    Users
+                          │
+                          ↓
+                        Policy
+                          │
+                   ┌──────┼──────┐
+                   ↓      ↓      ↓
+                  EC2     S3    RDS</pre>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">11 · AWS Track — EC2</h1>
+    <pre>AWS
+ ↓
+EC2 Instance
+ ↓
+Linux / Windows
+ ↓
+Your Application</pre>
+    <div class="box note">AWS توفّر لك <b class="ib">VM</b> وتدير الـ <b class="ib">underlying infrastructure</b>.</div>
+
+    <h2>2️⃣ EC2 Instance يعني إيه؟</h2>
+    <pre>EC2 Instance
+├── 2 vCPU
+├── 4 GB RAM
+├── 30 GB Storage
+└── Ubuntu</pre>
+
+    <div class="two">
+        <div>
+            <pre class="light">EC2
+ ↓
+Ubuntu
+ ↓
+Node.js
+ ↓
+Express
+ ↓
+Your API</pre>
+        </div>
+        <div>
+            <pre class="light">EC2
+ ↓
+Ubuntu
+ ↓
+Python
+ ↓
+Django
+ ↓
+Your API</pre>
+        </div>
+    </div>
+
+    <h2>4️⃣ أهم مكونات EC2</h2>
+    <pre>EC2
+│
+├── AMI
+├── Instance Type
+├── EBS
+├── Security Group
+├── Key Pair
+├── User Data
+└── IAM Role</pre>
+    <h3>🖼️ AMI — Amazon Machine Image</h3>
+    <p><b class="ib">Template</b> بتحدّد الـ OS والـ Configuration اللي الـ EC2 هتبدأ منه.</p>
+
+    <table>
+        <tr>
+            <th style="width:32%">Component</th>
+            <th>معناه</th>
+        </tr>
+        <tr>
+            <td class="ltr">EC2 Instance</td>
+            <td>الـ Virtual Server</td>
+        </tr>
+        <tr>
+            <td class="ltr">AMI</td>
+            <td>Template للـ Server</td>
+        </tr>
+        <tr>
+            <td class="ltr">Instance Type</td>
+            <td>CPU / RAM / Network Capacity</td>
+        </tr>
+        <tr>
+            <td class="ltr">Security Group</td>
+            <td>Firewall</td>
+        </tr>
+        <tr>
+            <td class="ltr">Key Pair</td>
+            <td>SSH Authentication</td>
+        </tr>
+        <tr>
+            <td class="ltr">User Data</td>
+            <td>Startup Script</td>
+        </tr>
+        <tr>
+            <td class="ltr">IAM Role</td>
+            <td>Permissions للـ EC2</td>
+        </tr>
+    </table>
+
+    <div class="pagebreak"></div>
+    <h1 class="part">12 · Cheat Sheet — ملخص سريع</h1>
+
+    <h2>🔄 التطوّر التاريخي</h2>
+    <pre class="light">Physical Servers → Virtualization → Containers → Cloud Computing → Cloud Services</pre>
+
+    <h2>⚙️ Service Models</h2>
+    <pre class="light">IaaS → "Give me a Server"       → أنت تدير الـ Infrastructure
+PaaS → "Run my Application"     → أنت تدير الـ Application
+SaaS → "Give me the Software"   → أنت تستخدم الـ Software</pre>
+
+    <h2>🏗️ Deployment Models</h2>
+    <pre class="light">Public   → لعملاء مختلفين
+Private  → مخصّصة لمنظمة واحدة
+Hybrid   → Private + Public
+Multi    → أكثر من Cloud Provider</pre>
+
+    <h2>🧩 الخصائص الخمسة</h2>
+    <pre class="light">On-Demand Self-Service · Broad Network Access · Resource Pooling
+Rapid Elasticity · Measured Service</pre>
+
+    <h2>🚀 Benefits</h2>
+    <pre class="light">Scalability (Up/Out) · Elasticity · High Availability · Fault Tolerance
+Disaster Recovery (RTO/RPO) · Global Reach · Cost Optimization · Agility</pre>
+
+    <h2>💰 Pricing</h2>
+    <pre class="light">CapEx → OpEx  |  بتدفع على: Compute · Storage · Data Transfer OUT
+On-Demand · Savings Plans · Reserved · Spot (~90%) · Dedicated
+أدوات: Pricing Calculator · Cost Explorer · Budgets · Trusted Advisor</pre>
+
+    <h2>🔐 Shared Responsibility</h2>
+    <pre class="light">AWS      → Security OF the Cloud  (Physical + Infrastructure)
+Customer → Security IN the Cloud  (Data · App · IAM · OS · Firewall)</pre>
+
+    <h2>🌐 مسار الـ Request</h2>
+    <pre class="light">Domain → DNS → IP → Port → Protocol → Load Balancer → Server → Database</pre>
+
+    <h2>📈 Availability Nines</h2>
+    <pre class="light">99%     → ~3.65 days/year
+99.9%   → ~8.8 hours/year
+99.99%  → ~52 minutes/year
+99.999% → ~5 minutes/year
+
+Availability = MTBF / (MTBF + MTTR)
+RTO = وقت التوقف المسموح  |  RPO = البيانات المسموح خسارتها</pre>
+
+    <h2>🔑 IAM</h2>
+    <pre class="light">User (مين؟) · Group (مجموعة users) · Policy (Allow/Deny على إيه)
+Authentication = Who are you?   |   Authorization = What can you do?</pre>
+
+    <h2>🖥️ EC2</h2>
+    <pre class="light">AMI · Instance Type · EBS · Security Group · Key Pair · User Data · IAM Role</pre>
+
+    <div class="footer-note">Cloud Fundamentals — Study Notes · Ahmed Ragab</div>
+
+    <script>window.onload = function () { setTimeout(function () { window.print(); }, 900); };</script>
+</body>
+
+</html>

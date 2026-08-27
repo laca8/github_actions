@@ -1,0 +1,15 @@
+services:
+
+  backend:
+    image: ragab14/github-actions-backend:latest
+    container_name: github-actions-backend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  frontend:
+    image: ragab14/github-actions-frontend:latest
+    container_name: github-actions-frontend
+    ports:
+      - "80:80"
+    restart: unless-stopped
